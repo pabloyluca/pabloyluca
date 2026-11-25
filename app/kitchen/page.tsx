@@ -1,4 +1,4 @@
-import { isSandbox } from "@/lib/mode";
+import { isSandbox, isVisualPreview } from "@/lib/mode";
 import type { Metadata } from "next";
 import { requirePageRole } from "@/lib/auth";
 import { Kitchen } from "@/components/ops/Kitchen";
@@ -12,5 +12,5 @@ export const dynamic = "force-dynamic";
 
 export default async function KitchenPage() {
   await requirePageRole(["OWNER", "ADMIN", "KITCHEN"]);
-  return <Kitchen sandbox={isSandbox()} />;
+  return <Kitchen sandbox={isSandbox()} visualPreview={isVisualPreview()} />;
 }
