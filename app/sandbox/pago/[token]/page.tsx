@@ -7,7 +7,7 @@ export default async function Sandbox({
 }: {
   params: Promise<{ token: string }>;
 }) {
-  if (!isSandbox()) notFound();
+  if (process.env.COMMERCE_MODE === "visual-preview" || !isSandbox()) notFound();
   const { token } = await params,
     order = await getPendingByToken(token);
   if (!order) notFound();
@@ -16,7 +16,7 @@ export default async function Sandbox({
     <div className="pl-entry">
       <main>
         <img src="/media/logo-original.webp" alt="Pablo & Luca" />
-        <p className="muted">Sandbox local · Pago de prueba</p>
+        <p className="muted">Sandbox · Pago de prueba</p>
         <h1>Pedido #{order.number}</h1>
         <p>
           Total{" "}

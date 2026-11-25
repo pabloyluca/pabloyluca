@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { createServerClient } from "@supabase/ssr";
 import type { Role } from "./contracts";
 import { staffRole } from "./domain";
-import { isSandbox } from "./mode";
+import { isVisualPreview, usesLocalData } from "./mode";
 
 export interface Staff {
   id: string;
@@ -46,7 +46,7 @@ function sign(value: string) {
   return createHmac("sha256", localSecret()).update(value).digest("base64url");
 }
 export async function getStaff(): Promise<Staff | null> {
-  if (isSandbox()) {
+  if (isVisualPreview() || usesLocalData()) {
     const raw = (await cookies()).get(sessionCookie)?.value;
     if (!raw) return null;
     const [role, expires, signature, ...extra] = raw.split(".");
@@ -84,7 +84,7 @@ export async function signIn(
   email: string,
   password: string,
 ): Promise<Staff | null> {
-  if (!isSandbox()) {
+  if (!(isVisualPreview() || usesLocalData())) {
     const db = await supabase();
     const { data, error } = await db.auth.signInWithPassword({
       email,
@@ -104,6 +104,7 @@ export async function signIn(
     if (
       target &&
       secret &&
+      (!isVisualPreview() || secret.length >= 32) &&
       equal(email.toLowerCase(), target.toLowerCase()) &&
       equal(password, secret)
     ) {
@@ -111,7 +112,7 @@ export async function signIn(
       (await cookies()).set(sessionCookie, value + "." + sign(value), {
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.APP_URL?.startsWith("https:"),
+        secure: !!process.env.VERCEL || process.env.APP_URL?.startsWith("https:"),
         path: "/",
         maxAge: 28800,
       });
@@ -121,7 +122,7 @@ export async function signIn(
   return null;
 }
 export async function logout() {
-  if (isSandbox()) (await cookies()).delete(sessionCookie);
+  if (isVisualPreview() || usesLocalData()) (await cookies()).delete(sessionCookie);
   else await (await supabase()).auth.signOut({ scope: "local" });
 }
 export async function realtimeToken() {

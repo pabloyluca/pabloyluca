@@ -2,7 +2,7 @@ import type { PGlite, Transaction } from "@electric-sql/pglite";
 import type { Sql, TransactionSql } from "postgres";
 import { readFile, readdir, mkdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { isSandbox } from "../mode";
+import { usesLocalData } from "../mode";
 
 export interface DB {
   query<T extends object = Record<string, unknown>>(
@@ -28,7 +28,8 @@ const remote = (pg: Sql | TransactionSql): DB => ({
   },
 });
 async function open(): Promise<Store> {
-  if (!isSandbox()) {
+  if (process.env.COMMERCE_MODE === "visual-preview") throw new Error("Vista previa de solo lectura.");
+  if (!usesLocalData()) {
     const url = process.env.DATABASE_URL;
     if (!url)
       throw new Error("Configura DATABASE_URL para la conexión de servidor.");

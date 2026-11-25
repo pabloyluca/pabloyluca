@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { mkdir, writeFile, readFile } from "node:fs/promises";
 import path from "node:path";
 import { createClient } from "@supabase/supabase-js";
-import { isSandbox } from "./mode";
+import { usesLocalData } from "./mode";
 import { HttpError } from "./http";
 const types: Record<string, string> = {
   jpg: "image/jpeg",
@@ -43,7 +43,7 @@ export async function saveUpload(file: File, kind: string) {
   if (!ext || (ext === "pdf" && kind !== "receipt"))
     throw new HttpError(415, "Utiliza JPG, PNG, WebP o PDF para comprobantes.");
   const key = kind + "-" + randomUUID() + "." + ext;
-  if (isSandbox()) {
+  if (usesLocalData()) {
     await mkdir(folder(), { recursive: true });
     await writeFile(path.join(folder(), key), b, { flag: "wx", mode: 0o600 });
     return "/api/files/" + key;
@@ -65,7 +65,7 @@ export async function loadFile(key: string) {
     throw new HttpError(404, "Archivo desconocido.");
   const mime = types[key.split(".").pop()!];
   let data: Uint8Array;
-  if (isSandbox()) {
+  if (usesLocalData()) {
     try {
       data = await readFile(path.join(folder(), key));
     } catch {

@@ -13,7 +13,7 @@ export default async function Login({
         <img src="/media/logo-original.webp" alt="Pablo & Luca" />
         <h1>Acceso del equipo</h1>
         <p>Entra para gestionar la tienda o preparar pedidos.</p>
-        {isSandbox() && <p className="muted">Entorno local de pruebas</p>}
+        {isSandbox() && <p className="muted">Entorno de pruebas</p>}
         <form action="/api/auth/login" method="post">
           <input
             type="hidden"

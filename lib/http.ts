@@ -15,6 +15,12 @@ export const json = (data: unknown, status = 200) =>
 export function api(fn: (req: Request) => Promise<Response>) {
   return async function (request: Request) {
     try {
+      if (process.env.COMMERCE_MODE === "visual-preview") {
+        const readonly = ["GET /api/menu", "GET /api/admin", "GET /api/kitchen", "GET /api/live", "POST /api/auth/login", "POST /api/auth/logout"];
+        if (!readonly.includes(request.method + " " + new URL(request.url).pathname)) {
+          return json({error:"SANDBOX visual de solo lectura. Las operaciones requieren la base de pruebas compartida."}, 503);
+        }
+      }
       return await fn(request);
     } catch (e) {
       if (e instanceof ZodError)

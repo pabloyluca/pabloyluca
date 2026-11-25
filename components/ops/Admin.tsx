@@ -261,7 +261,7 @@ export function Admin({ sandbox }: { sandbox: boolean }) {
         <div className="op-content">
           {sandbox && (
             <p className="op-sandbox">
-              Sandbox local · inventario y operaciones de prueba
+              Sandbox · inventario y operaciones de prueba
             </p>
           )}
           {(!online || issue) && (

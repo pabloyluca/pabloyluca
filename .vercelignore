@@ -1,0 +1,12 @@
+.env*
+.sandbox
+.git
+.next
+node_modules
+docs/qa
+test-results
+playwright-report
+*.tsbuildinfo
+kds-active.png
+sot*.png
+pabloyluca.com

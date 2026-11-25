@@ -19,6 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es-MX">
       <body>
+        {["visual-preview","online-sandbox"].includes(process.env.COMMERCE_MODE || "") && <aside style={{textAlign:"center",padding:"6px 12px",fontSize:13,background:"#eae2cf",color:"#153b28"}}><strong>SANDBOX</strong> · {process.env.COMMERCE_MODE==="visual-preview" ? "Vista de solo lectura · Cocina cerrada" : "Pedidos de prueba · Pago simulado"}</aside>}
         {children}
         <InstallShell />
       </body>

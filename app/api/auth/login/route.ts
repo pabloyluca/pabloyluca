@@ -3,7 +3,7 @@ import { api, budget, sameOrigin } from "@/lib/http";
 import { signIn } from "@/lib/auth";
 export const POST = api(async (req) => {
   sameOrigin(req);
-  await budget(req, "login", 16, 900);
+  if (process.env.COMMERCE_MODE !== "visual-preview") await budget(req, "login", 16, 900);
   const data = await req.formData();
   const input = z
     .object({ email: z.email().max(254), password: z.string().min(1).max(512) })

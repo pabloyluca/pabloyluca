@@ -1,8 +1,8 @@
 import { api, staff, managers, allStaff, HttpError } from "@/lib/http";
 import { events } from "@/lib/local-events";
-import { isSandbox } from "@/lib/mode";
+import { usesLocalData } from "@/lib/mode";
 export const GET = api(async (req) => {
-  if (!isSandbox()) throw new HttpError(404, "Ruta desconocida.");
+  if (!usesLocalData()) throw new HttpError(404, "Ruta desconocida.");
   const topic = new URL(req.url).searchParams.get("topic") || "public";
   if (topic !== "public")
     await staff(topic === "kitchen" ? allStaff : managers);

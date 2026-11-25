@@ -1,13 +1,17 @@
+export function isVisualPreview() {
+  return process.env.COMMERCE_MODE === "visual-preview";
+}
+
+export function usesLocalData() {
+  const mode = process.env.COMMERCE_MODE;
+  if (mode === "online-sandbox" || mode === "live" || mode === "visual-preview") return false;
+  if (!process.env.VERCEL && (mode === "sandbox" || (!mode && process.env.NODE_ENV !== "production"))) return true;
+  throw new Error("Configura un modo de datos compatible con el despliegue.");
+}
+
 export function isSandbox(): boolean {
-  if (process.env.VERCEL && process.env.COMMERCE_MODE !== "live")
-    throw new Error(
-      "Configura COMMERCE_MODE=live y la conexión Supabase para desplegar.",
-    );
+  if (isVisualPreview() || process.env.COMMERCE_MODE === "online-sandbox") return true;
   if (process.env.COMMERCE_MODE === "live") return false;
-  if (
-    process.env.COMMERCE_MODE === "sandbox" ||
-    (!process.env.COMMERCE_MODE && process.env.NODE_ENV !== "production")
-  )
-    return true;
-  throw new Error("Configura explícitamente COMMERCE_MODE.");
+  if (usesLocalData()) return true;
+  throw new Error("Configura COMMERCE_MODE explícitamente.");
 }

@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function proxy(request: NextRequest) {
   let res = NextResponse.next({ request });
   if (
-    process.env.COMMERCE_MODE !== "live" ||
+    !["live","online-sandbox"].includes(process.env.COMMERCE_MODE || "") ||
     !request.cookies.getAll().some((c) => c.name.startsWith("sb-"))
   )
     return res;

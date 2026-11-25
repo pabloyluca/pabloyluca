@@ -1,0 +1,587 @@
+{
+  "menu": {
+    "settings": {
+      "open": false,
+      "pickup": true,
+      "delivery": false,
+      "homeTitle": "Pizza artesanal como en Italia",
+      "homeDescription": "Masa de fermentación lenta, ingredientes reales y el sabor que se comparte.",
+      "banner": "",
+      "hours": "",
+      "businessName": "Pablo & Luca"
+    },
+    "products": [
+      {
+        "id": "00000000-0000-4000-8001-000000000001",
+        "name": "Margherita",
+        "description": "Tomate, mozzarella, albahaca fresca y aceite de oliva extra virgen.",
+        "price": 14900,
+        "image": "/media/margherita.webp",
+        "ingredients": [
+          "Tomate",
+          "Mozzarella",
+          "Albahaca fresca",
+          "Aceite de oliva extra virgen"
+        ],
+        "removable": [
+          "Tomate",
+          "Mozzarella",
+          "Albahaca fresca",
+          "Aceite de oliva extra virgen"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 1
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000002",
+        "name": "Pepperoni",
+        "description": "Tomate, mozzarella y pepperoni.",
+        "price": 14900,
+        "image": "/media/pepperoni.webp",
+        "ingredients": [
+          "Tomate",
+          "Mozzarella",
+          "Pepperoni"
+        ],
+        "removable": [
+          "Tomate",
+          "Mozzarella",
+          "Pepperoni"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 2
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000003",
+        "name": "Pepperoni & Aceitunas",
+        "description": "Tomate, mozzarella, pepperoni y aceitunas negras.",
+        "price": 15900,
+        "image": "/media/pepperoni-aceitunas.webp",
+        "ingredients": [
+          "Tomate",
+          "Mozzarella",
+          "Pepperoni",
+          "Aceitunas negras"
+        ],
+        "removable": [
+          "Tomate",
+          "Mozzarella",
+          "Pepperoni",
+          "Aceitunas negras"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 3
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000004",
+        "name": "Mediterránea",
+        "description": "Mozzarella, aceitunas negras, alcachofa, tomate cherry y orégano.",
+        "price": 20900,
+        "image": "/media/mediterranea.webp",
+        "ingredients": [
+          "Mozzarella",
+          "Aceitunas negras",
+          "Alcachofa",
+          "Tomate cherry",
+          "Orégano"
+        ],
+        "removable": [
+          "Mozzarella",
+          "Aceitunas negras",
+          "Alcachofa",
+          "Tomate cherry",
+          "Orégano"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 4
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000005",
+        "name": "Salmone",
+        "description": "Salmón, arúgula, queso cremoso y ralladura de limón.",
+        "price": 25900,
+        "image": "/media/salmone.webp",
+        "ingredients": [
+          "Salmón",
+          "Arúgula",
+          "Queso cremoso",
+          "Ralladura de limón"
+        ],
+        "removable": [
+          "Salmón",
+          "Arúgula",
+          "Queso cremoso",
+          "Ralladura de limón"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 5
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000006",
+        "name": "Tonno",
+        "description": "Atún en lajas, mozzarella, arúgula, tomates cherry y aceite de oliva.",
+        "price": 19900,
+        "image": "/media/tonno.webp",
+        "ingredients": [
+          "Atún en lajas",
+          "Mozzarella",
+          "Arúgula",
+          "Tomates cherry",
+          "Aceite de oliva"
+        ],
+        "removable": [
+          "Atún en lajas",
+          "Mozzarella",
+          "Arúgula",
+          "Tomates cherry",
+          "Aceite de oliva"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 6
+      }
+    ],
+    "zones": [],
+    "promotions": []
+  },
+  "admin": {
+    "purchases": [],
+    "settings": {
+      "open": false,
+      "hours": "",
+      "banner": "",
+      "pickup": true,
+      "delivery": false,
+      "homeTitle": "Pizza artesanal como en Italia",
+      "limitDough": true,
+      "ovenMinutes": 9,
+      "temperature": 250,
+      "businessName": "Pablo & Luca",
+      "ovenCapacity": 1,
+      "notifications": {},
+      "maxActiveUnits": 12,
+      "homeDescription": "Masa de fermentación lenta, ingredientes reales y el sabor que se comparte.",
+      "notificationEmail": "pabloyluca@proton.me"
+    },
+    "products": [
+      {
+        "id": "00000000-0000-4000-8001-000000000001",
+        "name": "Margherita",
+        "description": "Tomate, mozzarella, albahaca fresca y aceite de oliva extra virgen.",
+        "price": 14900,
+        "image": "/media/margherita.webp",
+        "ingredients": [
+          "Tomate",
+          "Mozzarella",
+          "Albahaca fresca",
+          "Aceite de oliva extra virgen"
+        ],
+        "removable": [
+          "Tomate",
+          "Mozzarella",
+          "Albahaca fresca",
+          "Aceite de oliva extra virgen"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 1
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000002",
+        "name": "Pepperoni",
+        "description": "Tomate, mozzarella y pepperoni.",
+        "price": 14900,
+        "image": "/media/pepperoni.webp",
+        "ingredients": [
+          "Tomate",
+          "Mozzarella",
+          "Pepperoni"
+        ],
+        "removable": [
+          "Tomate",
+          "Mozzarella",
+          "Pepperoni"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 2
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000003",
+        "name": "Pepperoni & Aceitunas",
+        "description": "Tomate, mozzarella, pepperoni y aceitunas negras.",
+        "price": 15900,
+        "image": "/media/pepperoni-aceitunas.webp",
+        "ingredients": [
+          "Tomate",
+          "Mozzarella",
+          "Pepperoni",
+          "Aceitunas negras"
+        ],
+        "removable": [
+          "Tomate",
+          "Mozzarella",
+          "Pepperoni",
+          "Aceitunas negras"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 3
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000004",
+        "name": "Mediterránea",
+        "description": "Mozzarella, aceitunas negras, alcachofa, tomate cherry y orégano.",
+        "price": 20900,
+        "image": "/media/mediterranea.webp",
+        "ingredients": [
+          "Mozzarella",
+          "Aceitunas negras",
+          "Alcachofa",
+          "Tomate cherry",
+          "Orégano"
+        ],
+        "removable": [
+          "Mozzarella",
+          "Aceitunas negras",
+          "Alcachofa",
+          "Tomate cherry",
+          "Orégano"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 4
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000005",
+        "name": "Salmone",
+        "description": "Salmón, arúgula, queso cremoso y ralladura de limón.",
+        "price": 25900,
+        "image": "/media/salmone.webp",
+        "ingredients": [
+          "Salmón",
+          "Arúgula",
+          "Queso cremoso",
+          "Ralladura de limón"
+        ],
+        "removable": [
+          "Salmón",
+          "Arúgula",
+          "Queso cremoso",
+          "Ralladura de limón"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 5
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000006",
+        "name": "Tonno",
+        "description": "Atún en lajas, mozzarella, arúgula, tomates cherry y aceite de oliva.",
+        "price": 19900,
+        "image": "/media/tonno.webp",
+        "ingredients": [
+          "Atún en lajas",
+          "Mozzarella",
+          "Arúgula",
+          "Tomates cherry",
+          "Aceite de oliva"
+        ],
+        "removable": [
+          "Atún en lajas",
+          "Mozzarella",
+          "Arúgula",
+          "Tomates cherry",
+          "Aceite de oliva"
+        ],
+        "available": true,
+        "archived": false,
+        "position": 6
+      }
+    ],
+    "zones": [],
+    "promotions": [],
+    "orders": [],
+    "ingredients": [
+      {
+        "id": "00000000-0000-4000-8002-000000000005",
+        "name": "Aceite de oliva extra virgen",
+        "unit": "ml",
+        "stock": 10000,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 2,
+        "purchasePrice": 30500,
+        "purchaseUnit": "L",
+        "purchaseDate": null,
+        "presentation": "2 L",
+        "unitCost": 15.25
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000007",
+        "name": "Atún fresco",
+        "unit": "g",
+        "stock": 10000,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 1,
+        "purchasePrice": 39900,
+        "purchaseUnit": "kg",
+        "purchaseDate": null,
+        "presentation": "1 kg",
+        "unitCost": 39.9
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000009",
+        "name": "Cajas",
+        "unit": "pz",
+        "stock": 100,
+        "minimum": 5,
+        "supplier": "",
+        "purchaseQuantity": 0,
+        "purchasePrice": 0,
+        "purchaseUnit": "pz",
+        "purchaseDate": null,
+        "presentation": "",
+        "unitCost": null
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000001",
+        "name": "Harina Selecta",
+        "unit": "g",
+        "stock": 10000,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 10,
+        "purchasePrice": 19948,
+        "purchaseUnit": "kg",
+        "purchaseDate": null,
+        "presentation": "10 kg",
+        "unitCost": 1.9948
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000002",
+        "name": "Mozzarella",
+        "unit": "g",
+        "stock": 10000,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 2.2,
+        "purchasePrice": 33000,
+        "purchaseUnit": "kg",
+        "purchaseDate": null,
+        "presentation": "2.2 kg",
+        "unitCost": 15
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000003",
+        "name": "Pepperoni",
+        "unit": "g",
+        "stock": 10000,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 2.26,
+        "purchasePrice": 39700,
+        "purchaseUnit": "kg",
+        "purchaseDate": null,
+        "presentation": "2.26 kg",
+        "unitCost": 17.56637168
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000004",
+        "name": "Queso Philadelphia",
+        "unit": "g",
+        "stock": 10000,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 800,
+        "purchasePrice": 15800,
+        "purchaseUnit": "g",
+        "purchaseDate": null,
+        "presentation": "800 g",
+        "unitCost": 19.75
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000006",
+        "name": "Salmón",
+        "unit": "g",
+        "stock": 10000,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 400,
+        "purchasePrice": 50000,
+        "purchaseUnit": "g",
+        "purchaseDate": null,
+        "presentation": "400 g",
+        "unitCost": 125
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000008",
+        "name": "Salsa",
+        "unit": "ml",
+        "stock": 10000,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 0,
+        "purchasePrice": 0,
+        "purchaseUnit": "ml",
+        "purchaseDate": null,
+        "presentation": "",
+        "unitCost": null
+      }
+    ],
+    "recipes": [
+      {
+        "productId": "00000000-0000-4000-8001-000000000001",
+        "complete": false,
+        "items": [
+          {
+            "unit": "fl_oz",
+            "category": "toppings",
+            "quantity": 1,
+            "ingredientId": "00000000-0000-4000-8002-000000000005"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 130,
+            "ingredientId": "00000000-0000-4000-8002-000000000002"
+          }
+        ],
+        "cost": null,
+        "partialCost": 2401
+      },
+      {
+        "productId": "00000000-0000-4000-8001-000000000002",
+        "complete": false,
+        "items": [
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 130,
+            "ingredientId": "00000000-0000-4000-8002-000000000002"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 50,
+            "ingredientId": "00000000-0000-4000-8002-000000000003"
+          }
+        ],
+        "cost": null,
+        "partialCost": 2828
+      },
+      {
+        "productId": "00000000-0000-4000-8001-000000000003",
+        "complete": false,
+        "items": [
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 130,
+            "ingredientId": "00000000-0000-4000-8002-000000000002"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 50,
+            "ingredientId": "00000000-0000-4000-8002-000000000003"
+          }
+        ],
+        "cost": null,
+        "partialCost": 2828
+      },
+      {
+        "productId": "00000000-0000-4000-8001-000000000004",
+        "complete": false,
+        "items": [
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 130,
+            "ingredientId": "00000000-0000-4000-8002-000000000002"
+          }
+        ],
+        "cost": null,
+        "partialCost": 1950
+      },
+      {
+        "productId": "00000000-0000-4000-8001-000000000005",
+        "complete": false,
+        "items": [],
+        "cost": null,
+        "partialCost": 0
+      },
+      {
+        "productId": "00000000-0000-4000-8001-000000000006",
+        "complete": false,
+        "items": [
+          {
+            "unit": "fl_oz",
+            "category": "toppings",
+            "quantity": 1,
+            "ingredientId": "00000000-0000-4000-8002-000000000005"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 130,
+            "ingredientId": "00000000-0000-4000-8002-000000000002"
+          }
+        ],
+        "cost": null,
+        "partialCost": 2401
+      }
+    ],
+    "dough": [],
+    "expenses": [],
+    "sales": [],
+    "channels": [
+      {
+        "id": "didi",
+        "name": "DiDi Food",
+        "commission": 30
+      },
+      {
+        "id": "other",
+        "name": "Otros",
+        "commission": null
+      },
+      {
+        "id": "rappi",
+        "name": "Rappi",
+        "commission": 30
+      },
+      {
+        "id": "store",
+        "name": "Tienda propia",
+        "commission": null
+      },
+      {
+        "id": "uber",
+        "name": "Uber Eats",
+        "commission": 30
+      },
+      {
+        "id": "whatsapp",
+        "name": "WhatsApp",
+        "commission": null
+      }
+    ],
+    "movements": []
+  },
+  "kitchen": {
+    "orders": [],
+    "settings": {
+      "open": false,
+      "ovenMinutes": 9,
+      "ovenCapacity": 1,
+      "temperature": 250
+    }
+  }
+}

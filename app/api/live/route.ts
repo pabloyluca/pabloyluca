@@ -1,4 +1,4 @@
-import { isSandbox } from "@/lib/mode";
+import { isVisualPreview, usesLocalData } from "@/lib/mode";
 import { allStaff, staff, managers, api, json } from "@/lib/http";
 import { realtimeToken } from "@/lib/auth";
 export const GET = api(async (req) => {
@@ -6,7 +6,7 @@ export const GET = api(async (req) => {
   if (topic !== "public")
     await staff(topic === "kitchen" ? allStaff : managers);
   return json(
-    isSandbox()
+    isVisualPreview() ? {mode:"visual"} : usesLocalData()
       ? { mode: "local" }
       : {
           mode: "supabase",
