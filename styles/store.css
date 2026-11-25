@@ -252,9 +252,6 @@
     transparent
   );
 }
-.pl-mobile-pizza {
-  display: none;
-}
 .pl-menu {
   padding-top: 40px;
   scroll-margin-top: 14px;
@@ -1158,17 +1155,20 @@
     z-index: -1;
   }
   .pl-hero-art {
-    display: none;
-  }
-  .pl-mobile-pizza {
     display: block;
     position: absolute;
-    height: 100%;
     width: 85%;
+    height: 100%;
     inset: 0 0 0 auto;
+    z-index: -2;
+  }
+  .pl-town {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: 55% center;
-    z-index: -2;
+    mask-image: none;
+    filter: none;
   }
   .pl-hero-copy {
     max-width: 100%;

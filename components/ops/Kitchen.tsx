@@ -239,7 +239,8 @@ export function Kitchen({ sandbox }: { sandbox: boolean }) {
             return (
               <section className={"kds-column " + id} key={id}>
                 <h2>
-                  <Icon /> {title} <span>({queue.length})</span>
+                  <Icon /> {title}{" "}
+                  <span>({id === "oven" ? baking : queue.length})</span>
                 </h2>
                 {queue.length ? (
                   queue.map((o) => (

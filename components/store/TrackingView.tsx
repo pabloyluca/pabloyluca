@@ -17,13 +17,15 @@ export function TrackingView({ token }: { token: string }) {
         if (current !== version.current) return;
         setOrder(result);
         setError("");
-        if (result.paymentStatus === "approved") {
+        const paid = result.paymentStatus === "approved";
+        const closed = result.status === "cancelled";
+        if (paid || closed) {
           try {
             const purchase = JSON.parse(
               sessionStorage.getItem("pl:submitted-cart") || "null",
             );
             if (purchase?.token === token) {
-              if (localStorage.getItem(CART_KEY) === purchase.cart)
+              if (paid && localStorage.getItem(CART_KEY) === purchase.cart)
                 localStorage.removeItem(CART_KEY);
               sessionStorage.removeItem("pl:submitted-cart");
               sessionStorage.removeItem("pl:pending-checkout");
@@ -54,6 +56,13 @@ export function TrackingView({ token }: { token: string }) {
       window.removeEventListener("pl:change", refresh);
     };
   }, [refresh]);
+  const cancelReason: Record<string, string> = {
+    rejected:
+      "El proveedor rechazó el pago. Puedes volver al menú para intentarlo de nuevo.",
+    expired: "La reserva venció antes de confirmar el pago.",
+    refunded: "El proveedor informó un reembolso de este pedido.",
+    charged_back: "El proveedor informó una reversión del pago.",
+  };
   const steps: OrderStatus[] = [
     "confirmed",
     "preparing",
@@ -117,7 +126,8 @@ export function TrackingView({ token }: { token: string }) {
               <p className="pl-note">
                 {order.status === "review"
                   ? "La cocina está revisando una incidencia con el pedido."
-                  : "El pedido ha sido cancelado."}
+                  : (cancelReason[order.paymentStatus] ??
+                    "El pedido ha sido cancelado.")}
               </p>
             ) : (
               <ol className="pl-track-steps">

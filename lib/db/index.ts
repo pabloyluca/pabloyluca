@@ -38,7 +38,12 @@ async function open(): Promise<Store> {
       prepare: false,
       idle_timeout: 20,
       connect_timeout: 8,
-      ssl: "require",
+      ssl: {
+        rejectUnauthorized: true,
+        ...(process.env.DATABASE_CA_CERT
+          ? { ca: process.env.DATABASE_CA_CERT.replaceAll("\\n", "\n") }
+          : {}),
+      },
       onnotice: () => {},
     });
     return {

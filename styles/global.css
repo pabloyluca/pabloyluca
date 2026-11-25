@@ -1,7 +1,124 @@
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
-:root {color-scheme:light;--cream:#fbf5e9;--green:#123e29;--ink:#191c16;--red:#a73b2d}
-*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--cream);font-family:Arial,Helvetica,sans-serif}button,input,select,textarea{font:inherit}button,a,input,select,textarea{touch-action:manipulation}button{cursor:pointer}button:disabled{cursor:not-allowed}a{color:inherit}:focus-visible{outline:3px solid #ba6b20;outline-offset:3px}img{max-width:100%}
-.pl-entry{min-height:100svh;display:grid;place-items:center;padding:32px 20px;background:linear-gradient(112deg,#f9f4e9ef,#f9f4e9d8),url('/pattern.svg')}.pl-entry main{width:min(100%,420px);border-radius:20px;background:#fffcf5;border:1px solid #d7d0c0;padding:32px;box-shadow:0 12px 40px #22412610}.pl-entry img{width:150px;display:block;margin:auto;mix-blend-mode:multiply}.pl-entry h1{font-family:Georgia,serif;font-size:34px;letter-spacing:-.04em;margin:26px 0 10px}.pl-entry p{line-height:1.5}.pl-entry label{display:grid;gap:6px;margin:16px 0;font-weight:600;font-size:14px}.pl-entry input{width:100%;padding:12px;border:1px solid #aaa99d;background:white;border-radius:8px}.pl-entry button,.pl-entry .action{display:block;text-align:center;border:0;background:var(--green);color:white;padding:13px;border-radius:9px;margin:16px 0;width:100%;font-weight:bold;text-decoration:none}.pl-entry .muted{color:#565f51;font-size:.88rem}.pl-entry .failure{color:#923228;font-weight:bold}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+:root {
+  color-scheme: light;
+  --cream: #fbf5e9;
+  --green: #123e29;
+  --ink: #191c16;
+  --red: #a73b2d;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--cream);
+  font-family: Arial, Helvetica, sans-serif;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+a {
+  color: inherit;
+}
+:focus-visible {
+  outline: 3px solid #ba6b20;
+  outline-offset: 3px;
+}
+img {
+  max-width: 100%;
+}
+.pl-entry {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  background:
+    linear-gradient(112deg, #f9f4e9ef, #f9f4e9d8), url("/pattern.svg");
+}
+.pl-entry main {
+  width: min(100%, 420px);
+  border-radius: 20px;
+  background: #fffcf5;
+  border: 1px solid #d7d0c0;
+  padding: 32px;
+  box-shadow: 0 12px 40px #22412610;
+}
+.pl-entry img {
+  width: 150px;
+  display: block;
+  margin: auto;
+  mix-blend-mode: multiply;
+}
+.pl-entry h1 {
+  font-family: Georgia, serif;
+  font-size: 34px;
+  letter-spacing: -0.04em;
+  margin: 26px 0 10px;
+}
+.pl-entry p {
+  line-height: 1.5;
+}
+.pl-entry label {
+  display: grid;
+  gap: 6px;
+  margin: 16px 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+.pl-entry input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #aaa99d;
+  background: white;
+  border-radius: 8px;
+}
+.pl-entry button,
+.pl-entry .action {
+  display: block;
+  text-align: center;
+  border: 0;
+  background: var(--green);
+  color: white;
+  padding: 13px;
+  border-radius: 9px;
+  margin: 16px 0;
+  width: 100%;
+  font-weight: bold;
+  text-decoration: none;
+}
+.pl-entry .muted {
+  color: #565f51;
+  font-size: 0.88rem;
+}
+.pl-entry .failure {
+  color: #923228;
+  font-weight: bold;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

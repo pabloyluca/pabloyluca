@@ -24,6 +24,7 @@ import {
   Empty,
   Field,
   formatNum,
+  recipeEstimate,
   localStamp,
   money,
   Panel,
@@ -118,7 +119,7 @@ export function Recipes({ data, mutate }: Props) {
                         {complete ? "Costo de producción" : "Costo parcial"}
                       </small>
                       <strong>
-                        {money(complete ? r.cost : (r?.partialCost ?? null))}
+                        {money(recipeEstimate(r, data.ingredients))}
                       </strong>
                       <small>Precio de venta · {money(p.price)}</small>
                     </div>
@@ -307,7 +308,9 @@ function RecipeEditor({
               ? "Costo total"
               : "Costo parcial conocido"}
           </span>
-          <strong>{money(total)}</strong>
+          <strong>
+            {money(costs.some((value) => value != null) ? total : null)}
+          </strong>
         </div>
         <label className="op-check">
           <input

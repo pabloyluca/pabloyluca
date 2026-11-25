@@ -7,7 +7,13 @@ import {
   type ReactNode,
 } from "react";
 import { Check, LoaderCircle, X } from "lucide-react";
-import type { AdminData, FinanceSale, OrderStatus } from "@/lib/contracts";
+import type {
+  AdminData,
+  FinanceSale,
+  OrderStatus,
+  Recipe,
+  Ingredient,
+} from "@/lib/contracts";
 
 export const money = (value: number | null) =>
   value == null
@@ -18,6 +24,17 @@ export const money = (value: number | null) =>
         maximumFractionDigits: value % 100 ? 2 : 0,
         minimumFractionDigits: value % 100 ? 2 : 0,
       }).format(value / 100);
+export function recipeEstimate(
+  recipe: Recipe | undefined,
+  ingredients: Ingredient[],
+) {
+  if (!recipe) return null;
+  if (recipe.complete) return recipe.cost;
+  const known = recipe.items.some((item) =>
+    ingredients.some((i) => i.id === item.ingredientId && i.unitCost != null),
+  );
+  return known ? recipe.partialCost : null;
+}
 export const formatNum = (value: number) =>
   new Intl.NumberFormat("es-MX", { maximumFractionDigits: 3 }).format(value);
 export const orderNo = (value: number) => "#" + String(value).padStart(4, "0");

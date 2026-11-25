@@ -1,2 +1,25 @@
-import type {MetadataRoute} from 'next';
-export default function manifest():MetadataRoute.Manifest{return {id:'/',name:'Pablo & Luca · Pizza artesanal',short_name:'Pablo & Luca',description:'Tienda y cocina de Pablo & Luca',lang:'es-MX',start_url:'/',scope:'/',display:'standalone',background_color:'#fbf5e9',theme_color:'#103d28',icons:[192,512].map(size=>({src:`/icon-${size}.png`,sizes:`${size}x${size}`,type:'image/png',purpose:'any'})),shortcuts:[{name:'Cocina',url:'/kitchen'},{name:'Administración',url:'/admin'}]}}
+import type { MetadataRoute } from "next";
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    id: "/",
+    name: "Pablo & Luca · Pizza artesanal",
+    short_name: "Pablo & Luca",
+    description: "Tienda y cocina de Pablo & Luca",
+    lang: "es-MX",
+    start_url: "/",
+    scope: "/",
+    display: "standalone",
+    background_color: "#fbf5e9",
+    theme_color: "#103d28",
+    icons: [192, 512].map((size) => ({
+      src: `/icon-${size}.png`,
+      sizes: `${size}x${size}`,
+      type: "image/png",
+      purpose: "any",
+    })),
+    shortcuts: [
+      { name: "Cocina", url: "/kitchen" },
+      { name: "Administración", url: "/admin" },
+    ],
+  };
+}

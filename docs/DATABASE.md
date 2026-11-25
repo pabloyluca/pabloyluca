@@ -37,3 +37,11 @@ El worker de correo reclama eventos con FOR UPDATE SKIP LOCKED y un arrendamient
 Aplicar en orden las migraciones de `supabase/migrations` sobre el proyecto comercial confirmado, seguidas de `supabase/seed.sql`. El seed marca su primera ejecución dentro de la transacción y conserva cambios editoriales al volver a ejecutarse. El primer OWNER se asigna por un administrador de la base después de crear el usuario en Supabase Auth. Usar el UUID del usuario verificado en profiles.
 
 La suite de dominio usa PGlite con las migraciones completas. La prueba de permisos crea roles PostgreSQL anon y authenticated y una identidad Auth local para probar las políticas con SET ROLE. La comprobación de sesiones y Realtime contra la cuenta comercial de Supabase requiere el proyecto definitivo.
+
+## Concurrencia y TLS en PostgreSQL nativo
+
+El 25 de noviembre de 2026 se aplicaron las migraciones y el seed a dos instancias efímeras sucesivas de PostgreSQL 18.4 en loopback. Cada ejecución empleó el adaptador de producción postgres.js 4.1.1, dos procesos Node independientes y un lote con exactamente una bola lista. Una conexión coordinadora mantuvo bloqueada la fila de configuración hasta que pg_stat_activity mostró que ambos backends de checkout esperaban un bloqueo. Al liberarlo, un checkout obtuvo su pedido y el otro recibió el conflicto de masa insuficiente. La base conservó un pedido, una unidad de cocina y una reserva. La bola física siguió en existencias a la espera del pago.
+
+Ambas conexiones negociaron TLS 1.3. En el segundo ensayo, el mismo adaptador rechazó una CA ajena con `UNABLE_TO_VERIFY_LEAF_SIGNATURE` y un nombre de servidor ausente del certificado con `ERR_TLS_CERT_ALTNAME_INVALID`. Los dos servidores temporales se apagaron al finalizar.
+
+El cliente verifica la cadena y el nombre de la base mediante las autoridades de confianza de Node. Si Supabase requiere su propia CA, configura `DATABASE_CA_CERT` en el entorno de servidor con el certificado PEM oficial del proyecto y usa en `DATABASE_URL` el hostname cubierto por su certificado. El valor PEM admite saltos de línea reales o representados como `\n`. La validación del certificado comercial y de la conectividad desde Vercel corresponde al despliegue en la cuenta definitiva.

@@ -34,6 +34,7 @@ import {
   dayKey,
   Empty,
   formatNum,
+  recipeEstimate,
   knownSum,
   localStamp,
   money,
@@ -529,11 +530,7 @@ function Overview({
                   {recipe?.complete ? "Costo por pizza" : "Costo parcial"}
                 </small>
                 <strong>
-                  {money(
-                    recipe?.complete
-                      ? recipe.cost
-                      : (recipe?.partialCost ?? null),
-                  )}
+                  {money(recipeEstimate(recipe, data.ingredients))}
                 </strong>
                 <small>Precio de venta · {money(product.price)}</small>
               </div>

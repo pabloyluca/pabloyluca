@@ -14,5 +14,8 @@ export const POST = api(async (req) => {
       ? "/kitchen"
       : "/admin"
     : "/login?error=1";
-  return Response.redirect(new URL(target, req.url), 303);
+  return new Response(null, {
+    status: 303,
+    headers: { Location: target, "Cache-Control": "no-store" },
+  });
 });

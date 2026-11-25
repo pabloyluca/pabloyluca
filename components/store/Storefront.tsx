@@ -331,7 +331,10 @@ export function Storefront({
               Ver el menú <ArrowDown size={15} />
             </a>
           </div>
-          <div className="pl-hero-art" aria-hidden="true">
+          <picture className="pl-hero-art" aria-hidden="true">
+            {products[0]?.image && (
+              <source media="(max-width: 680px)" srcSet={products[0].image} />
+            )}
             <img
               className="pl-town"
               src="/media/vespa-toscana.webp"
@@ -340,15 +343,7 @@ export function Storefront({
               alt=""
               fetchPriority="high"
             />
-          </div>
-          {products[0]?.image && (
-            <img
-              className="pl-mobile-pizza"
-              alt=""
-              src={products[0].image}
-              fetchPriority="high"
-            />
-          )}
+          </picture>
         </div>
       </section>
       <section

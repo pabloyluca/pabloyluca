@@ -23,5 +23,8 @@ export const POST = api(async (req) => {
     updatedAt: new Date().toISOString(),
   });
   afterWrite(true);
-  return Response.redirect(new URL("/seguimiento/" + token, req.url), 303);
+  return new Response(null, {
+    status: 303,
+    headers: { Location: "/seguimiento/" + token, "Cache-Control": "no-store" },
+  });
 });
