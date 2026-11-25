@@ -1,0 +1,198 @@
+{
+  "formatVersion": 1,
+  "coordinateSystem": "Píxeles del PNG original. [izquierda, arriba, derecha exclusiva, abajo exclusivo].",
+  "sourceRoot": "/Users/smonkeycoin/Desktop/pablo y luca",
+  "sources": {
+    "pabloyluca.com/storefront sot.png": {
+      "size": [
+        1199,
+        1312
+      ],
+      "sha256": "035456a34b68adf26bead79ab20be73a02d41e46a535becfadcb2f24c8f34633"
+    },
+    "sot logo.png": {
+      "size": [
+        1920,
+        819
+      ],
+      "sha256": "7dd789293382a8a38eb2a2b27847c90bf9ecf735b6477fb411f9997aadebe8f7"
+    },
+    "pabloyluca.com/cms sot.png": {
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "1b1d3084d0cdb9544d3d15c90f6bf9c22a832925d0dd2d8a8095240534f977fc"
+    },
+    "pabloyluca.com/erp sot.png": {
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "fd211465a813079af460d09ce5c806ffd4adfe8041593922d5a03c024ff0091e"
+    },
+    "pabloyluca.com/kds sot.png": {
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "3ad7779b72a2dbf6f77800bcd2270d798485521ff81c8a20dca54928ddc53e43"
+    },
+    "sot branding.png": {
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "8918c55da8f22ed508f7cb42cc4f5cec52cf31aeb09d3230f332ec1d12ae0585"
+    },
+    "sot framless profile pic.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "8eaf959b5cd26b9bd83ebc2012339c9f9bfc49fefa1ea6ed7c3f68087e029e4d"
+    },
+    "sot profile pic.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "6709afaefc3ea63a05ca6a95fb8e93294bb0c09055f5b2da01bfc03eb014ebbc"
+    }
+  },
+  "derivatives": [
+    {
+      "file": "visual/margherita.webp",
+      "source": "pabloyluca.com/storefront sot.png",
+      "box": [
+        44,
+        538,
+        270,
+        697
+      ],
+      "size": [
+        226,
+        159
+      ],
+      "bytes": 25200,
+      "sha256": "2d47641340aa9b68f2237675b840bd22d73ed65e8261b91fe0fa9f66e3c6df18"
+    },
+    {
+      "file": "visual/pepperoni.webp",
+      "source": "pabloyluca.com/storefront sot.png",
+      "box": [
+        299,
+        538,
+        525,
+        697
+      ],
+      "size": [
+        226,
+        159
+      ],
+      "bytes": 24890,
+      "sha256": "3fbe565d99dea996f0e6ab779d27610063e12725b72343323979705a74fcba77"
+    },
+    {
+      "file": "visual/pepperoni-aceitunas.webp",
+      "source": "pabloyluca.com/storefront sot.png",
+      "box": [
+        553,
+        538,
+        779,
+        697
+      ],
+      "size": [
+        226,
+        159
+      ],
+      "bytes": 25064,
+      "sha256": "b20785b8a911e35ae1828448f4d82cb24272872dd1b69b150a847efc9f75f448"
+    },
+    {
+      "file": "visual/mediterranea.webp",
+      "source": "pabloyluca.com/storefront sot.png",
+      "box": [
+        44,
+        861,
+        270,
+        1020
+      ],
+      "size": [
+        226,
+        159
+      ],
+      "bytes": 24482,
+      "sha256": "cb89938ab6eb7cfe677b7db2dda369309bd48f1b08525a02e1101079041809d4"
+    },
+    {
+      "file": "visual/salmone.webp",
+      "source": "pabloyluca.com/storefront sot.png",
+      "box": [
+        299,
+        861,
+        525,
+        1020
+      ],
+      "size": [
+        226,
+        159
+      ],
+      "bytes": 24862,
+      "sha256": "105a5f4a98f3e1b075ece0aadb2855b19a77ee5f3d74e5c2a16cb1a88a01904a"
+    },
+    {
+      "file": "visual/tonno.webp",
+      "source": "pabloyluca.com/storefront sot.png",
+      "box": [
+        553,
+        861,
+        779,
+        1020
+      ],
+      "size": [
+        226,
+        159
+      ],
+      "bytes": 25474,
+      "sha256": "b6c08ddd3c008df7d007f1915e6c0b740abd026f607b2449f3e800aeabcfe9c1"
+    },
+    {
+      "file": "visual/logo-original.webp",
+      "source": "sot logo.png",
+      "box": [
+        165,
+        42,
+        1730,
+        765
+      ],
+      "size": [
+        680,
+        314
+      ],
+      "bytes": 21600,
+      "sha256": "4790fcf3249255c1a880ae269b8dc8421aa76f6b3205c5a9906a5176adaa789a"
+    },
+    {
+      "file": "visual/vespa-original.webp",
+      "source": "sot logo.png",
+      "box": [
+        547,
+        54,
+        1408,
+        402
+      ],
+      "size": [
+        600,
+        243
+      ],
+      "bytes": 16532,
+      "sha256": "36436ee51395b58ed16066f9523677c56c3544d37b63785cf19c3a1c8b9a9804"
+    }
+  ],
+  "notes": [
+    "Seis fotos provisionales referenciales de SOT Storefront. Resolución nativa suficiente para miniaturas, limitada en pantallas de alta densidad.",
+    "Logotipo y Vespa recortados directamente del original firmado. Conservan el color y el fondo del archivo fuente.",
+    "Las interfaces deben implementarse como componentes. Los derivados excluyen texto de interfaz y controles."
+  ]
+}
