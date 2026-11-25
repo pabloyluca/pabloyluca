@@ -1,3 +1,4 @@
+import { saveChannelPresentation } from "./channel-editor";
 import { discountAmount } from "../price";
 import { z } from "zod";
 import { db, type DB } from "../db";
@@ -761,6 +762,8 @@ export async function mutate(
       const { id: key } = identifier.parse(payload);
       await kds(d, action, key, s);
       result = { id: key };
+    } else if (action === "channel.presentation") {
+      await saveChannelPresentation(d,payload);
     } else if (action === "settings.save") {
       const v = settingSchema.parse(payload),
         updated = {

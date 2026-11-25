@@ -1,3 +1,4 @@
+import { storefrontChannels } from "../sales-channels";
 import { discountAmount } from "../price";
 import { createHash, randomBytes } from "node:crypto";
 import { z } from "zod";
@@ -96,6 +97,7 @@ export async function getMenu() {
   const d = await db();
   const s = await settings(d);
   return {
+    commercial: storefrontChannels(await d.query<{id:string; presentation:object}>("select id,presentation from sales_channels")),
     settings: publicSettings(s),
     products: await products(d, true, s.limitDough),
     zones: (await zones(d)).filter((v) => v.enabled),

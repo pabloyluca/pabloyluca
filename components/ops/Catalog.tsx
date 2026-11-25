@@ -27,6 +27,8 @@ import {
   type Mutate,
 } from "./shared";
 
+import { SalesChannelEditor } from "./SalesChannelEditor";
+
 type Props = { data: AdminData; mutate: Mutate };
 const tabs = [
   "Pizzas",
@@ -34,6 +36,7 @@ const tabs = [
   "Banners / Home",
   "Horarios",
   "Zonas de entrega",
+  "Canales de venta",
 ] as const;
 const notificationNames: Record<string, string> = {
   paid_internal: "Nuevo pedido pagado",
@@ -203,6 +206,8 @@ export function Catalog({ data, mutate, busy }: Props & { busy: boolean }) {
             />
           )}
         </>
+      ) : tab === "Canales de venta" ? (
+        <SalesChannelEditor data={data} mutate={mutate} busy={busy} />
       ) : (
         <StoreConfig key={tab} data={data} mutate={mutate} section={tab} />
       )}

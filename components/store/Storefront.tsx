@@ -1,4 +1,5 @@
 "use client";
+import { SalesChannels } from "./SalesChannels";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
@@ -346,6 +347,7 @@ export function Storefront({
           </picture>
         </div>
       </section>
+      <SalesChannels menu={menu} />
       <section
         className="pl-menu pl-wrap"
         id="menu"
@@ -354,7 +356,7 @@ export function Storefront({
         <div className="pl-menu-head">
           <div className="pl-title-ornament">
             <i />
-            <h2 id="pl-menu-title">Nuestro Menú</h2>
+            <h2 id="pl-menu-title" tabIndex={-1}>Nuestro Menú</h2>
             <i />
           </div>
           <p>

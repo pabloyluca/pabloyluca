@@ -62,6 +62,7 @@ export interface Promotion {
   enabled: boolean;
 }
 export interface Menu {
+  commercial?: import("./sales-channels").StorefrontChannels;
   products: Product[];
   settings: Pick<
     Settings,
@@ -207,6 +208,8 @@ export interface FinanceSale {
   productSales: { name: string; quantity: number; amount: number }[];
 }
 export interface ChannelConfig {
+  presentation?: Partial<import("./sales-channels").DirectBanner & import("./sales-channels").PlatformCard>;
+  productPrices?: Record<string, number>;
   id: Channel;
   name: string;
   commission: number | null;

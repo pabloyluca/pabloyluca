@@ -163,7 +163,7 @@ export const movements = (d: DB) =>
   );
 export const channels = (d: DB) =>
   d.query<ChannelConfig>(
-    "select id,name,commission::float8 from sales_channels order by name",
+    "select id,name,commission::float8,presentation,product_prices as \"productPrices\" from sales_channels order by name",
   );
 export async function orders(d: DB, privateData: true): Promise<AdminOrder[]>;
 export async function orders(
