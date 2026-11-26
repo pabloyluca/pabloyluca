@@ -1,6 +1,7 @@
 import "server-only";
 import { createHash } from "node:crypto";
 import { ZodError } from "zod";
+import { isPublicCatalog } from "./mode";
 import { getStaff } from "./auth";
 import type { Role } from "./contracts";
 import { checkRateLimit } from "./domain";
@@ -15,6 +16,18 @@ export const json = (data: unknown, status = 200) =>
 export function api(fn: (req: Request) => Promise<Response>) {
   return async function (request: Request) {
     try {
+      if (isPublicCatalog()) {
+        const { pathname, searchParams } = new URL(request.url);
+        if (request.method === "GET" && pathname === "/api/live" && (searchParams.get("topic") ?? "public") === "public") {
+          return json({ mode: "static" });
+        }
+        if (request.method !== "GET" || pathname !== "/api/menu") {
+          if (pathname === "/api/admin" || pathname === "/api/kitchen") {
+            return json({ error: "Acceso restringido." }, 401);
+          }
+          return json({ error: "La tienda recibe pedidos cuando abre la cocina." }, 503);
+        }
+      }
       if (process.env.COMMERCE_MODE === "visual-preview") {
         const readonly = ["GET /api/menu", "GET /api/admin", "GET /api/kitchen", "GET /api/live", "POST /api/auth/login", "POST /api/auth/logout"];
         if (!readonly.includes(request.method + " " + new URL(request.url).pathname)) {

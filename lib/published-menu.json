@@ -1,0 +1,255 @@
+{
+  "settings": {
+    "open": false,
+    "pickup": true,
+    "delivery": false,
+    "homeTitle": "Pizza artesanal como en Italia",
+    "homeDescription": "Masa de fermentación lenta, ingredientes reales y el sabor que se comparte.",
+    "banner": "",
+    "hours": "",
+    "businessName": "Pablo & Luca",
+    "veganSurcharge": 1500
+  },
+  "products": [
+    {
+      "id": "00000000-0000-4000-8001-000000000001",
+      "name": "Margherita",
+      "description": "Tomate, mozzarella, albahaca fresca y aceite de oliva extra virgen.",
+      "price": 14900,
+      "image": "/media/catalogo-v3/margherita.webp",
+      "ingredients": [
+        "Tomate",
+        "Mozzarella",
+        "Albahaca fresca",
+        "Aceite de oliva extra virgen"
+      ],
+      "removable": [
+        "Tomate",
+        "Mozzarella",
+        "Albahaca fresca",
+        "Aceite de oliva extra virgen"
+      ],
+      "archived": false,
+      "position": 1,
+      "available": true,
+      "slug": null,
+      "category": "Pizzas artesanales",
+      "sizeCm": 30,
+      "cheeseMode": "swap",
+      "dietClass": "option",
+      "dietVerified": false,
+      "canSwap": true,
+      "cheeseLabels": [
+        "Mozzarella"
+      ],
+      "standardAvailable": true,
+      "veganAvailable": true
+    },
+    {
+      "id": "00000000-0000-4000-8001-000000000002",
+      "name": "Pepperoni",
+      "description": "Tomate, mozzarella y pepperoni.",
+      "price": 14900,
+      "image": "/media/catalogo-v2/pepperoni.webp",
+      "ingredients": [
+        "Tomate",
+        "Mozzarella",
+        "Pepperoni"
+      ],
+      "removable": [
+        "Tomate",
+        "Mozzarella",
+        "Pepperoni"
+      ],
+      "archived": false,
+      "position": 2,
+      "available": true,
+      "slug": null,
+      "category": "Pizzas artesanales",
+      "sizeCm": 30,
+      "cheeseMode": "swap",
+      "dietClass": "plant",
+      "dietVerified": false,
+      "canSwap": true,
+      "cheeseLabels": [
+        "Mozzarella"
+      ],
+      "standardAvailable": true,
+      "veganAvailable": true
+    },
+    {
+      "id": "00000000-0000-4000-8001-000000000003",
+      "name": "Pepperoni & Aceitunas",
+      "description": "Tomate, mozzarella, pepperoni y aceitunas negras.",
+      "price": 15900,
+      "image": "/media/catalogo-v2/pepperoni-olivas.webp",
+      "ingredients": [
+        "Tomate",
+        "Mozzarella",
+        "Pepperoni",
+        "Aceitunas negras"
+      ],
+      "removable": [
+        "Tomate",
+        "Mozzarella",
+        "Pepperoni",
+        "Aceitunas negras"
+      ],
+      "archived": false,
+      "position": 3,
+      "available": true,
+      "slug": null,
+      "category": "Pizzas artesanales",
+      "sizeCm": 30,
+      "cheeseMode": "swap",
+      "dietClass": "plant",
+      "dietVerified": false,
+      "canSwap": true,
+      "cheeseLabels": [
+        "Mozzarella"
+      ],
+      "standardAvailable": true,
+      "veganAvailable": true
+    },
+    {
+      "id": "00000000-0000-4000-8001-000000000004",
+      "name": "Mediterránea",
+      "description": "Mozzarella, aceitunas negras, alcachofa, tomate cherry y orégano.",
+      "price": 20900,
+      "image": "/media/catalogo-v2/mediterranea.webp",
+      "ingredients": [
+        "Mozzarella",
+        "Aceitunas negras",
+        "Alcachofa",
+        "Tomate cherry",
+        "Orégano"
+      ],
+      "removable": [
+        "Mozzarella",
+        "Aceitunas negras",
+        "Alcachofa",
+        "Tomate cherry",
+        "Orégano"
+      ],
+      "archived": false,
+      "position": 4,
+      "available": true,
+      "slug": null,
+      "category": "Pizzas artesanales",
+      "sizeCm": 30,
+      "cheeseMode": "swap",
+      "dietClass": "option",
+      "dietVerified": false,
+      "canSwap": true,
+      "cheeseLabels": [
+        "Mozzarella"
+      ],
+      "standardAvailable": true,
+      "veganAvailable": true
+    },
+    {
+      "id": "00000000-0000-4000-8001-000000000005",
+      "name": "Salmone",
+      "description": "Salmón, arúgula, queso cremoso y ralladura de limón.",
+      "price": 25900,
+      "image": "/media/catalogo-v2/salmone.webp",
+      "ingredients": [
+        "Salmón",
+        "Arúgula",
+        "Queso cremoso",
+        "Ralladura de limón"
+      ],
+      "removable": [
+        "Salmón",
+        "Arúgula",
+        "Queso cremoso",
+        "Ralladura de limón"
+      ],
+      "archived": false,
+      "position": 5,
+      "available": true,
+      "slug": null,
+      "category": "Pizzas artesanales",
+      "sizeCm": 30,
+      "cheeseMode": "none",
+      "dietClass": "plant",
+      "dietVerified": false,
+      "canSwap": false,
+      "cheeseLabels": [],
+      "standardAvailable": true,
+      "veganAvailable": false
+    },
+    {
+      "id": "00000000-0000-4000-8001-000000000006",
+      "name": "Tonno",
+      "description": "Atún en lajas, mozzarella, arúgula, tomates cherry y aceite de oliva.",
+      "price": 19900,
+      "image": "/media/catalogo-v2/tonno.webp",
+      "ingredients": [
+        "Atún en lajas",
+        "Mozzarella",
+        "Arúgula",
+        "Tomates cherry",
+        "Aceite de oliva"
+      ],
+      "removable": [
+        "Atún en lajas",
+        "Mozzarella",
+        "Arúgula",
+        "Tomates cherry",
+        "Aceite de oliva"
+      ],
+      "archived": false,
+      "position": 6,
+      "available": true,
+      "slug": null,
+      "category": "Pizzas artesanales",
+      "sizeCm": 30,
+      "cheeseMode": "swap",
+      "dietClass": "plant",
+      "dietVerified": false,
+      "canSwap": true,
+      "cheeseLabels": [
+        "Mozzarella"
+      ],
+      "standardAvailable": true,
+      "veganAvailable": true
+    },
+    {
+      "id": "00000000-0000-4000-8001-000000000007",
+      "name": "Bosco Vegana",
+      "description": "Hongos frescos, aceitunas negras, queso vegano y arúgula fresca sobre nuestra masa de fermentación lenta, con salsa de tomate y aceite de oliva extra virgen.",
+      "price": 18900,
+      "image": "/media/catalogo-v2/bosco-vegana.webp",
+      "ingredients": [
+        "Masa de fermentación lenta",
+        "Salsa de tomate",
+        "Queso vegano GÜD",
+        "Champiñones",
+        "Aceitunas negras",
+        "Arúgula",
+        "Aceite de oliva extra virgen"
+      ],
+      "removable": [
+        "Champiñones",
+        "Aceitunas negras",
+        "Arúgula"
+      ],
+      "archived": false,
+      "position": 7,
+      "available": true,
+      "slug": "bosco-vegana",
+      "category": "Pizzas artesanales",
+      "sizeCm": 30,
+      "cheeseMode": "native",
+      "dietClass": "vegan",
+      "dietVerified": true,
+      "canSwap": false,
+      "cheeseLabels": [],
+      "standardAvailable": true,
+      "veganAvailable": false
+    }
+  ],
+  "zones": [],
+  "promotions": []
+}

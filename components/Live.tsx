@@ -24,7 +24,7 @@ export function Live({
         });
         if (!response.ok) throw Error();
         const cfg = await response.json();
-        if (!active || cfg.mode === "visual") return;
+        if (!active || cfg.mode === "visual" || cfg.mode === "static") return;
         if (cfg.mode === "local") {
           const es = new EventSource("/api/events?topic=" + audience);
           es.addEventListener("ready", () => {

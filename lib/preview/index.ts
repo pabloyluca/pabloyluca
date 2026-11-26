@@ -1,6 +1,6 @@
 import 'server-only';
 import fixture from './catalog.json';
-import type {AdminData, KitchenData, Menu} from '../contracts';
+import type {AdminData, KitchenData} from '../contracts';
 
 // Immutable visual reference generated from the initial catalog in an isolated database.
-export const preview = fixture as {menu:Menu; admin:AdminData; kitchen:KitchenData};
+export const preview = fixture as {admin:AdminData; kitchen:KitchenData};

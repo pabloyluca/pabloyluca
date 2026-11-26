@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { createServerClient } from "@supabase/ssr";
 import type { Role } from "./contracts";
 import { staffRole } from "./domain";
-import { isVisualPreview, usesLocalData } from "./mode";
+import { isPublicCatalog, isVisualPreview, usesLocalData } from "./mode";
 
 export interface Staff {
   id: string;
@@ -46,6 +46,7 @@ function sign(value: string) {
   return createHmac("sha256", localSecret()).update(value).digest("base64url");
 }
 export async function getStaff(): Promise<Staff | null> {
+  if (isPublicCatalog()) return null;
   if (isVisualPreview() || usesLocalData()) {
     const raw = (await cookies()).get(sessionCookie)?.value;
     if (!raw) return null;

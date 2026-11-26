@@ -1,4 +1,4 @@
-import { isSandbox } from "@/lib/mode";
+import { isPublicCatalog, isSandbox } from "@/lib/mode";
 import Link from "next/link";
 export const dynamic = "force-dynamic";
 export default async function Login({
@@ -12,6 +12,7 @@ export default async function Login({
       <main>
         <img src="/media/logo-original.webp" alt="Pablo & Luca" />
         <h1>Acceso del equipo</h1>
+        {isPublicCatalog() ? <p>El acceso del equipo estará disponible cuando comience la operación.</p> : <>
         <p>Entra para gestionar la tienda o preparar pedidos.</p>
         {isSandbox() && <p className="muted">Entorno de pruebas</p>}
         <form action="/api/auth/login" method="post">
@@ -40,6 +41,7 @@ export default async function Login({
           )}
           <button>Entrar</button>
         </form>
+        </>}
         <Link href="/">Volver a la tienda</Link>
       </main>
     </div>

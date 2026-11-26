@@ -1,5 +1,4 @@
-import { isVisualPreview } from "@/lib/mode";
-import { preview } from "@/lib/preview";
-import { getMenu } from "@/lib/domain";
+import { storefrontMenu } from "@/lib/storefront-menu";
 import { api, json } from "@/lib/http";
-export const GET = api(async () => json(isVisualPreview() ? preview.menu : await getMenu()));
+
+export const GET = api(async () => json(await storefrontMenu()));
