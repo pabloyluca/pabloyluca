@@ -1,4 +1,5 @@
 import "server-only";
+import { HttpError } from "./errors";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -131,4 +132,21 @@ export async function realtimeToken() {
     (await (await supabase()).auth.getSession()).data.session?.access_token ??
     null
   );
+}
+
+export async function activateStaff(input: {password: string; invitation: string | null; access: string | null; refresh: string | null}) {
+  const sb = await supabase();
+  const session = input.invitation
+    ? await sb.auth.verifyOtp({type:"invite", token_hash:input.invitation})
+    : input.access && input.refresh
+      ? await sb.auth.setSession({access_token:input.access,refresh_token:input.refresh})
+      : null;
+  if (!session || session.error) throw new HttpError(401,"La invitación venció o ya fue utilizada.");
+  const {data,error} = await sb.auth.getUser();
+  if (error || !data.user?.email_confirmed_at || !await staffRole(data.user.id)) {
+    await sb.auth.signOut({scope:"local"});
+    throw new HttpError(403,"Tu cuenta aún no tiene acceso al equipo.");
+  }
+  const saved = await sb.auth.updateUser({password:input.password});
+  if (saved.error) throw new HttpError(400,"Supabase no aceptó la contraseña. Solicita una nueva invitación si el enlace venció.");
 }

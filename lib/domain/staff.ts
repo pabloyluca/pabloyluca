@@ -1,6 +1,7 @@
 import { saveChannelPresentation } from "./channel-editor";
 import { discountAmount } from "../price";
 import { z } from "zod";
+import { isCatalogCMS } from "../mode";
 import { db, type DB } from "../db";
 import type { AdminData, KitchenData, Role, Settings } from "../contracts";
 import {
@@ -37,16 +38,28 @@ import {
 } from "./common";
 import { expire, orderNotify } from "./commerce";
 
+// Scope PostgreSQL row policies to the staff identity already verified by Supabase Auth.
+async function asStaff<T>(actor: string | undefined, read: (d: DB) => Promise<T>) {
+  const store = await db();
+  if (!isCatalogCMS()) return read(store);
+  return store.tx(async tx => {
+    await tx.query("select set_config('pl.staff_id', $1, true)", [id.parse(actor)]);
+    return read(tx);
+  });
+}
+
 export async function staffRole(userId: string): Promise<Role | null> {
-  const r = await (
-    await db()
-  ).query<{ role: Role }>("select role from profiles where id=$1", [
-    id.parse(userId),
-  ]);
+  const r = await asStaff(userId, d => d.query<{role: Role}>(
+    "select role from profiles where id=$1", [id.parse(userId)]
+  ));
   return r[0]?.role ?? null;
 }
-export async function adminData(): Promise<AdminData> {
-  const d = await db();
+
+export async function adminData(actor?: string): Promise<AdminData> {
+  return asStaff(actor, readAdmin);
+}
+
+async function readAdmin(d: DB): Promise<AdminData> {
   return {
     purchases: await purchases(d),
     settings: await settings(d),
@@ -63,12 +76,11 @@ export async function adminData(): Promise<AdminData> {
     movements: await movements(d),
   };
 }
-export async function kitchenData(): Promise<KitchenData> {
-  const d = await db();
-  return {
+export async function kitchenData(actor?: string): Promise<KitchenData> {
+  return asStaff(actor, async d => ({
     orders: await orders(d, false),
     settings: ovenSettings(await settings(d)),
-  };
+  }));
 }
 
 const integer = (min: number, max: number) =>
@@ -784,8 +796,14 @@ export async function mutate(
     403,
   );
   return (await db()).tx(async (d) => {
+    if (isCatalogCMS()) {
+      requireState(["ADMIN","OWNER"].includes(role), "Permisos insuficientes.", 403);
+      const editable = action.startsWith("product.") || ["settings.save","channel.presentation","channel.save","zone.save","promotion.save","recipe.save","ingredient.save"].includes(action);
+      requireState(editable,"Esta operación requiere habilitar la cocina.",409);
+      await d.query("select set_config('pl.staff_id', $1, true)",[id.parse(actor)]);
+    }
     await lock(d);
-    await expire(d);
+    if (!isCatalogCMS()) await expire(d);
     const s = await settings(d);
     let result: { id?: unknown } | undefined;
     if (kitchenActions.has(action)) {

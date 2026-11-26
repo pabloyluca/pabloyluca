@@ -8,12 +8,12 @@ const day = (s: string) =>
     day: "2-digit",
   }).format(new Date(s));
 export const GET = api(async (req) => {
-  await staff(managers);
+  const user = await staff(managers);
   const query = new URL(req.url).searchParams,
     from = query.get("from"),
     to = query.get("to"),
     channel = query.get("channel");
-  const { sales, expenses } = await adminData();
+  const { sales, expenses } = await adminData(user.id);
   const match = (date: string) =>
     (!from || date >= from) && (!to || date <= to);
   const money = (n: number | null) => (n === null ? "" : (n / 100).toFixed(2));

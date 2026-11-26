@@ -1,7 +1,7 @@
 import "server-only";
 import { createHash } from "node:crypto";
 import { ZodError } from "zod";
-import { isPublicCatalog } from "./mode";
+import { isCatalogCMS, isPublicCatalog } from "./mode";
 import { getStaff } from "./auth";
 import type { Role } from "./contracts";
 import { checkRateLimit } from "./domain";
@@ -16,6 +16,12 @@ export const json = (data: unknown, status = 200) =>
 export function api(fn: (req: Request) => Promise<Response>) {
   return async function (request: Request) {
     try {
+      if (isCatalogCMS()) {
+        const { pathname } = new URL(request.url);
+        if (["/api/checkout", "/api/sandbox/payment", "/api/webhooks/mercadopago", "/api/jobs"].includes(pathname)) {
+          return json({ error: "La cocina está cerrada." }, 503);
+        }
+      }
       if (isPublicCatalog()) {
         const { pathname, searchParams } = new URL(request.url);
         if (request.method === "GET" && pathname === "/api/live" && (searchParams.get("topic") ?? "public") === "public") {

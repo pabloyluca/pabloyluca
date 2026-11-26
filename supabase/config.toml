@@ -2,3 +2,11 @@ project_id = "pabloyluca"
 [db.seed]
 enabled = true
 sql_paths = ["./seed.sql"]
+
+[auth]
+site_url = "https://pabloyluca.vercel.app"
+additional_redirect_urls = ["https://pabloyluca.vercel.app/activar"]
+enable_signup = false
+
+[auth.email]
+enable_confirmations = true
