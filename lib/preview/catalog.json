@@ -17,7 +17,7 @@
         "name": "Margherita",
         "description": "Tomate, mozzarella, albahaca fresca y aceite de oliva extra virgen.",
         "price": 14900,
-        "image": "/media/catalogo-v2/margherita.webp",
+        "image": "/media/catalogo-v3/margherita.webp",
         "ingredients": [
           "Tomate",
           "Mozzarella",
@@ -280,7 +280,7 @@
         "name": "Margherita",
         "description": "Tomate, mozzarella, albahaca fresca y aceite de oliva extra virgen.",
         "price": 14900,
-        "image": "/media/catalogo-v2/margherita.webp",
+        "image": "/media/catalogo-v3/margherita.webp",
         "ingredients": [
           "Tomate",
           "Mozzarella",

@@ -21,7 +21,7 @@ insert into sales_channels (id,name,commission) values
 ('other','Otros',null)
 on conflict do nothing;
 insert into products (id,name,description,price,image,ingredients,removable,available,position) values
-('00000000-0000-4000-8001-000000000001','Margherita','Tomate, mozzarella, albahaca fresca y aceite de oliva extra virgen.',14900,'/media/margherita.webp',ARRAY['Tomate','Mozzarella','Albahaca fresca','Aceite de oliva extra virgen']::text[],ARRAY['Tomate','Mozzarella','Albahaca fresca','Aceite de oliva extra virgen']::text[],true,1),
+('00000000-0000-4000-8001-000000000001','Margherita','Tomate, mozzarella, albahaca fresca y aceite de oliva extra virgen.',14900,'/media/catalogo-v3/margherita.webp',ARRAY['Tomate','Mozzarella','Albahaca fresca','Aceite de oliva extra virgen']::text[],ARRAY['Tomate','Mozzarella','Albahaca fresca','Aceite de oliva extra virgen']::text[],true,1),
 ('00000000-0000-4000-8001-000000000002','Pepperoni','Tomate, mozzarella y pepperoni.',14900,'/media/pepperoni.webp',ARRAY['Tomate','Mozzarella','Pepperoni']::text[],ARRAY['Tomate','Mozzarella','Pepperoni']::text[],true,2),
 ('00000000-0000-4000-8001-000000000003','Pepperoni & Aceitunas','Tomate, mozzarella, pepperoni y aceitunas negras.',15900,'/media/pepperoni-aceitunas.webp',ARRAY['Tomate','Mozzarella','Pepperoni','Aceitunas negras']::text[],ARRAY['Tomate','Mozzarella','Pepperoni','Aceitunas negras']::text[],true,3),
 ('00000000-0000-4000-8001-000000000004','Mediterránea','Mozzarella, aceitunas negras, alcachofa, tomate cherry y orégano.',20900,'/media/mediterranea.webp',ARRAY['Mozzarella','Aceitunas negras','Alcachofa','Tomate cherry','Orégano']::text[],ARRAY['Mozzarella','Aceitunas negras','Alcachofa','Tomate cherry','Orégano']::text[],true,4),

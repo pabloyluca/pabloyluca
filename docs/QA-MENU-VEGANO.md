@@ -22,7 +22,7 @@ La prueba entre cliente y cocina utilizó sesiones de navegador aisladas en la m
 
 ## Decisiones que requieren revisión del equipo
 
-- La Margherita comercial se generó con la Bosco aprobada y la descripción de la masa. Falta contrastarla con la fotografía de la Margherita real, que no acompañaba al texto recibido.
+- La toma comercial de Margherita usa la referencia física del equipo, `margherita.jpg`, y la Bosco como guía de iluminación y encuadre. La mozzarella continua, la hoja central y el cornicione irregular guían la recreación. El original se conserva para la aprobación visual.
 - Para mostrar la pizza entera, se amplió el encuadre de la Bosco aprobada. El original se conserva.
 - El CMS mantiene el nombre comercial anterior «Pepperoni & Aceitunas». Su nueva imagen se llama `pepperoni-olivas.webp`.
 - Salmone conserva queso cremoso, sin sustitución ni etiqueta de ausencia de lactosa. Margherita y Mediterránea admiten la sustitución y el CMS permite validar la declaración alimentaria por producto.
@@ -34,5 +34,5 @@ La prueba entre cliente y cocina utilizó sesiones de navegador aisladas en la m
 - Las migraciones `20261126001000_vegan_menu.sql` y `20261126002000_catalog_photos.sql` separan la lógica alimentaria de la actualización de fotografías. El seed usa las mismas funciones en instalaciones nuevas. Las imágenes anteriores siguen accesibles en sus rutas para los pedidos históricos. Una foto personalizada que ya se hubiera subido por el CMS conserva su asociación durante la migración.
 - `lib/domain`, `lib/contracts.ts`, `lib/db` y `lib/lu/tools.ts` incorporan los gramajes efectivos, el suplemento y los precios registrados por unidad. `lib/preview/catalog.json` contiene la referencia visual estática. El CMS del sandbox operativo lee y escribe en su propia base.
 - `components/store`, `components/ops` y `styles` contienen el selector de queso, el resumen de checkout, la configuración del CMS, la contribución bruta por canal y las indicaciones de cocina.
-- `public/media/catalogo-v2` contiene los siete WebP. Los maestros, el respaldo anterior, la lámina comparativa y las capturas se entregan en la carpeta Fotografia de esta revisión.
+- Los recursos WebP están en `public/media/catalogo-v2`. La revisión de Margherita está en `public/media/catalogo-v3/margherita.webp`. La migración `20261126003000_margherita_photo.sql` actualiza solo la asociación predeterminada anterior. Los maestros, el respaldo anterior, la lámina comparativa y las capturas se entregan en la carpeta Fotografia de esta revisión.
 - `tests/vegan-menu.test.ts` y `tests/vegan-store.spec.ts` cubren el nuevo flujo. `tests/domain-commerce.test.ts` incorpora el séptimo producto. Para repetir la suite, ejecutar `npm test`, `npm run build` en modo sandbox y `npm run test:e2e` con las credenciales locales de pruebas.
