@@ -10,6 +10,7 @@ export const GET = api(async (req) => {
       ? { mode: "local" }
       : {
           mode: "supabase",
+          schema: process.env.COMMERCE_MODE === "online-sandbox" ? "pl_preview" : "public",
           url: process.env.NEXT_PUBLIC_SUPABASE_URL,
           key: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
           token: topic === "public" ? null : await realtimeToken(),

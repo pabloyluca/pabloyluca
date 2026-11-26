@@ -48,11 +48,25 @@ async function open(): Promise<Store> {
       },
       onnotice: () => {},
     });
+    const preview = process.env.COMMERCE_MODE === "online-sandbox";
+    if (preview && (process.env.VERCEL_ENV === "production" ||
+        new URL(url).username.split(".")[0] !== "pl_preview_orders")) {
+      await pg.end();
+      throw new Error("El simulador requiere la conexión exclusiva de la preview.");
+    }
+    async function transaction<T>(fn: (db: DB) => Promise<T>): Promise<T> {
+      return await pg.begin(async tx => {
+        if (preview) await tx.unsafe("set local search_path = pl_preview, pg_catalog");
+        return fn(remote(tx));
+      }) as T;
+    }
     return {
-      ...remote(pg),
+      ...(preview ? {
+        query: <T extends object>(sql: string, values?: unknown[]) =>
+          transaction(d => d.query<T>(sql, values)),
+      } : remote(pg)),
       close: () => pg.end(),
-      tx: async <T>(fn: (db: DB) => Promise<T>) =>
-        (await pg.begin((tx) => fn(remote(tx)))) as T,
+      tx: transaction,
     };
   }
   const { PGlite } = await import("@electric-sql/pglite");

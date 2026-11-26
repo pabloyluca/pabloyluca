@@ -53,7 +53,7 @@ export function Live({
             "postgres_changes",
             {
               event: "UPDATE",
-              schema: "public",
+              schema: cfg.schema === "pl_preview" ? "pl_preview" : "public",
               table: "store_signals",
               filter: "topic=eq." + audience,
             },
