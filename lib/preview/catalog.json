@@ -8,7 +8,8 @@
       "homeDescription": "Masa de fermentación lenta, ingredientes reales y el sabor que se comparte.",
       "banner": "",
       "hours": "",
-      "businessName": "Pablo & Luca"
+      "businessName": "Pablo & Luca",
+      "veganSurcharge": 1500
     },
     "products": [
       {
@@ -16,7 +17,7 @@
         "name": "Margherita",
         "description": "Tomate, mozzarella, albahaca fresca y aceite de oliva extra virgen.",
         "price": 14900,
-        "image": "/media/margherita.webp",
+        "image": "/media/catalogo-v2/margherita.webp",
         "ingredients": [
           "Tomate",
           "Mozzarella",
@@ -29,16 +30,28 @@
           "Albahaca fresca",
           "Aceite de oliva extra virgen"
         ],
-        "available": true,
         "archived": false,
-        "position": 1
+        "position": 1,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "option",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
       },
       {
         "id": "00000000-0000-4000-8001-000000000002",
         "name": "Pepperoni",
         "description": "Tomate, mozzarella y pepperoni.",
         "price": 14900,
-        "image": "/media/pepperoni.webp",
+        "image": "/media/catalogo-v2/pepperoni.webp",
         "ingredients": [
           "Tomate",
           "Mozzarella",
@@ -49,16 +62,28 @@
           "Mozzarella",
           "Pepperoni"
         ],
-        "available": true,
         "archived": false,
-        "position": 2
+        "position": 2,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "plant",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
       },
       {
         "id": "00000000-0000-4000-8001-000000000003",
         "name": "Pepperoni & Aceitunas",
         "description": "Tomate, mozzarella, pepperoni y aceitunas negras.",
         "price": 15900,
-        "image": "/media/pepperoni-aceitunas.webp",
+        "image": "/media/catalogo-v2/pepperoni-olivas.webp",
         "ingredients": [
           "Tomate",
           "Mozzarella",
@@ -71,16 +96,28 @@
           "Pepperoni",
           "Aceitunas negras"
         ],
-        "available": true,
         "archived": false,
-        "position": 3
+        "position": 3,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "plant",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
       },
       {
         "id": "00000000-0000-4000-8001-000000000004",
         "name": "Mediterránea",
         "description": "Mozzarella, aceitunas negras, alcachofa, tomate cherry y orégano.",
         "price": 20900,
-        "image": "/media/mediterranea.webp",
+        "image": "/media/catalogo-v2/mediterranea.webp",
         "ingredients": [
           "Mozzarella",
           "Aceitunas negras",
@@ -95,16 +132,28 @@
           "Tomate cherry",
           "Orégano"
         ],
-        "available": true,
         "archived": false,
-        "position": 4
+        "position": 4,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "option",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
       },
       {
         "id": "00000000-0000-4000-8001-000000000005",
         "name": "Salmone",
         "description": "Salmón, arúgula, queso cremoso y ralladura de limón.",
         "price": 25900,
-        "image": "/media/salmone.webp",
+        "image": "/media/catalogo-v2/salmone.webp",
         "ingredients": [
           "Salmón",
           "Arúgula",
@@ -117,16 +166,26 @@
           "Queso cremoso",
           "Ralladura de limón"
         ],
-        "available": true,
         "archived": false,
-        "position": 5
+        "position": 5,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "none",
+        "dietClass": "plant",
+        "dietVerified": false,
+        "canSwap": false,
+        "cheeseLabels": [],
+        "standardAvailable": true,
+        "veganAvailable": false
       },
       {
         "id": "00000000-0000-4000-8001-000000000006",
         "name": "Tonno",
         "description": "Atún en lajas, mozzarella, arúgula, tomates cherry y aceite de oliva.",
         "price": 19900,
-        "image": "/media/tonno.webp",
+        "image": "/media/catalogo-v2/tonno.webp",
         "ingredients": [
           "Atún en lajas",
           "Mozzarella",
@@ -141,9 +200,55 @@
           "Tomates cherry",
           "Aceite de oliva"
         ],
-        "available": true,
         "archived": false,
-        "position": 6
+        "position": 6,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "plant",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000007",
+        "name": "Bosco Vegana",
+        "description": "Hongos frescos, aceitunas negras, queso vegano y arúgula fresca sobre nuestra masa de fermentación lenta, con salsa de tomate y aceite de oliva extra virgen.",
+        "price": 18900,
+        "image": "/media/catalogo-v2/bosco-vegana.webp",
+        "ingredients": [
+          "Masa de fermentación lenta",
+          "Salsa de tomate",
+          "Queso vegano GÜD",
+          "Champiñones",
+          "Aceitunas negras",
+          "Arúgula",
+          "Aceite de oliva extra virgen"
+        ],
+        "removable": [
+          "Champiñones",
+          "Aceitunas negras",
+          "Arúgula"
+        ],
+        "archived": false,
+        "position": 7,
+        "available": true,
+        "slug": "bosco-vegana",
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "native",
+        "dietClass": "vegan",
+        "dietVerified": true,
+        "canSwap": false,
+        "cheeseLabels": [],
+        "standardAvailable": true,
+        "veganAvailable": false
       }
     ],
     "zones": [],
@@ -166,7 +271,8 @@
       "notifications": {},
       "maxActiveUnits": 12,
       "homeDescription": "Masa de fermentación lenta, ingredientes reales y el sabor que se comparte.",
-      "notificationEmail": "pabloyluca@proton.me"
+      "notificationEmail": "pabloyluca@proton.me",
+      "veganSurcharge": 1500
     },
     "products": [
       {
@@ -174,7 +280,7 @@
         "name": "Margherita",
         "description": "Tomate, mozzarella, albahaca fresca y aceite de oliva extra virgen.",
         "price": 14900,
-        "image": "/media/margherita.webp",
+        "image": "/media/catalogo-v2/margherita.webp",
         "ingredients": [
           "Tomate",
           "Mozzarella",
@@ -187,16 +293,28 @@
           "Albahaca fresca",
           "Aceite de oliva extra virgen"
         ],
-        "available": true,
         "archived": false,
-        "position": 1
+        "position": 1,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "option",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
       },
       {
         "id": "00000000-0000-4000-8001-000000000002",
         "name": "Pepperoni",
         "description": "Tomate, mozzarella y pepperoni.",
         "price": 14900,
-        "image": "/media/pepperoni.webp",
+        "image": "/media/catalogo-v2/pepperoni.webp",
         "ingredients": [
           "Tomate",
           "Mozzarella",
@@ -207,16 +325,28 @@
           "Mozzarella",
           "Pepperoni"
         ],
-        "available": true,
         "archived": false,
-        "position": 2
+        "position": 2,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "plant",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
       },
       {
         "id": "00000000-0000-4000-8001-000000000003",
         "name": "Pepperoni & Aceitunas",
         "description": "Tomate, mozzarella, pepperoni y aceitunas negras.",
         "price": 15900,
-        "image": "/media/pepperoni-aceitunas.webp",
+        "image": "/media/catalogo-v2/pepperoni-olivas.webp",
         "ingredients": [
           "Tomate",
           "Mozzarella",
@@ -229,16 +359,28 @@
           "Pepperoni",
           "Aceitunas negras"
         ],
-        "available": true,
         "archived": false,
-        "position": 3
+        "position": 3,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "plant",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
       },
       {
         "id": "00000000-0000-4000-8001-000000000004",
         "name": "Mediterránea",
         "description": "Mozzarella, aceitunas negras, alcachofa, tomate cherry y orégano.",
         "price": 20900,
-        "image": "/media/mediterranea.webp",
+        "image": "/media/catalogo-v2/mediterranea.webp",
         "ingredients": [
           "Mozzarella",
           "Aceitunas negras",
@@ -253,16 +395,28 @@
           "Tomate cherry",
           "Orégano"
         ],
-        "available": true,
         "archived": false,
-        "position": 4
+        "position": 4,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "option",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
       },
       {
         "id": "00000000-0000-4000-8001-000000000005",
         "name": "Salmone",
         "description": "Salmón, arúgula, queso cremoso y ralladura de limón.",
         "price": 25900,
-        "image": "/media/salmone.webp",
+        "image": "/media/catalogo-v2/salmone.webp",
         "ingredients": [
           "Salmón",
           "Arúgula",
@@ -275,16 +429,26 @@
           "Queso cremoso",
           "Ralladura de limón"
         ],
-        "available": true,
         "archived": false,
-        "position": 5
+        "position": 5,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "none",
+        "dietClass": "plant",
+        "dietVerified": false,
+        "canSwap": false,
+        "cheeseLabels": [],
+        "standardAvailable": true,
+        "veganAvailable": false
       },
       {
         "id": "00000000-0000-4000-8001-000000000006",
         "name": "Tonno",
         "description": "Atún en lajas, mozzarella, arúgula, tomates cherry y aceite de oliva.",
         "price": 19900,
-        "image": "/media/tonno.webp",
+        "image": "/media/catalogo-v2/tonno.webp",
         "ingredients": [
           "Atún en lajas",
           "Mozzarella",
@@ -299,9 +463,55 @@
           "Tomates cherry",
           "Aceite de oliva"
         ],
-        "available": true,
         "archived": false,
-        "position": 6
+        "position": 6,
+        "available": true,
+        "slug": null,
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "swap",
+        "dietClass": "plant",
+        "dietVerified": false,
+        "canSwap": true,
+        "cheeseLabels": [
+          "Mozzarella"
+        ],
+        "standardAvailable": true,
+        "veganAvailable": true
+      },
+      {
+        "id": "00000000-0000-4000-8001-000000000007",
+        "name": "Bosco Vegana",
+        "description": "Hongos frescos, aceitunas negras, queso vegano y arúgula fresca sobre nuestra masa de fermentación lenta, con salsa de tomate y aceite de oliva extra virgen.",
+        "price": 18900,
+        "image": "/media/catalogo-v2/bosco-vegana.webp",
+        "ingredients": [
+          "Masa de fermentación lenta",
+          "Salsa de tomate",
+          "Queso vegano GÜD",
+          "Champiñones",
+          "Aceitunas negras",
+          "Arúgula",
+          "Aceite de oliva extra virgen"
+        ],
+        "removable": [
+          "Champiñones",
+          "Aceitunas negras",
+          "Arúgula"
+        ],
+        "archived": false,
+        "position": 7,
+        "available": true,
+        "slug": "bosco-vegana",
+        "category": "Pizzas artesanales",
+        "sizeCm": 30,
+        "cheeseMode": "native",
+        "dietClass": "vegan",
+        "dietVerified": true,
+        "canSwap": false,
+        "cheeseLabels": [],
+        "standardAvailable": true,
+        "veganAvailable": false
       }
     ],
     "zones": [],
@@ -311,8 +521,10 @@
       {
         "id": "00000000-0000-4000-8002-000000000005",
         "name": "Aceite de oliva extra virgen",
+        "cheeseRole": null,
+        "referencePrice": null,
         "unit": "ml",
-        "stock": 10000,
+        "stock": 0,
         "minimum": 100,
         "supplier": "",
         "purchaseQuantity": 2,
@@ -323,38 +535,92 @@
         "unitCost": 15.25
       },
       {
-        "id": "00000000-0000-4000-8002-000000000007",
-        "name": "Atún fresco",
+        "id": "00000000-0000-4000-8002-000000000014",
+        "name": "Aceitunas negras",
+        "cheeseRole": null,
+        "referencePrice": null,
         "unit": "g",
-        "stock": 10000,
+        "stock": 0,
         "minimum": 100,
         "supplier": "",
-        "purchaseQuantity": 1,
-        "purchasePrice": 39900,
-        "purchaseUnit": "kg",
+        "purchaseQuantity": 30,
+        "purchasePrice": 500,
+        "purchaseUnit": "g",
         "purchaseDate": null,
-        "presentation": "1 kg",
-        "unitCost": 39.9
+        "presentation": "Porción estimada de 30 g",
+        "unitCost": 16.66666667
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000015",
+        "name": "Arúgula",
+        "cheeseRole": null,
+        "referencePrice": null,
+        "unit": "g",
+        "stock": 0,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 15,
+        "purchasePrice": 400,
+        "purchaseUnit": "g",
+        "purchaseDate": null,
+        "presentation": "Porción estimada de 15 g",
+        "unitCost": 26.66666667
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000007",
+        "name": "Atún Dolores Premium, corte grueso",
+        "cheeseRole": null,
+        "referencePrice": 12900,
+        "unit": "g",
+        "stock": 0,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 150,
+        "purchasePrice": 10200,
+        "purchaseUnit": "g",
+        "purchaseDate": null,
+        "presentation": "150 g",
+        "unitCost": 68
       },
       {
         "id": "00000000-0000-4000-8002-000000000009",
         "name": "Cajas",
+        "cheeseRole": null,
+        "referencePrice": null,
         "unit": "pz",
-        "stock": 100,
+        "stock": 0,
         "minimum": 5,
         "supplier": "",
-        "purchaseQuantity": 0,
-        "purchasePrice": 0,
+        "purchaseQuantity": 1,
+        "purchasePrice": 1000,
         "purchaseUnit": "pz",
         "purchaseDate": null,
-        "presentation": "",
-        "unitCost": null
+        "presentation": "Caja kraft · 1 pieza",
+        "unitCost": 1000
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000013",
+        "name": "Champiñones",
+        "cheeseRole": null,
+        "referencePrice": null,
+        "unit": "g",
+        "stock": 0,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 80,
+        "purchasePrice": 960,
+        "purchaseUnit": "g",
+        "purchaseDate": null,
+        "presentation": "Porción estimada de 80 g",
+        "unitCost": 12
       },
       {
         "id": "00000000-0000-4000-8002-000000000001",
         "name": "Harina Selecta",
+        "cheeseRole": null,
+        "referencePrice": null,
         "unit": "g",
-        "stock": 10000,
+        "stock": 0,
         "minimum": 100,
         "supplier": "",
         "purchaseQuantity": 10,
@@ -365,10 +631,28 @@
         "unitCost": 1.9948
       },
       {
+        "id": "00000000-0000-4000-8002-000000000011",
+        "name": "Masa de fermentación lenta",
+        "cheeseRole": null,
+        "referencePrice": null,
+        "unit": "g",
+        "stock": 0,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 255,
+        "purchasePrice": 350,
+        "purchaseUnit": "g",
+        "purchaseDate": null,
+        "presentation": "Bola de 255 g",
+        "unitCost": 1.37254902
+      },
+      {
         "id": "00000000-0000-4000-8002-000000000002",
         "name": "Mozzarella",
+        "cheeseRole": "base",
+        "referencePrice": null,
         "unit": "g",
-        "stock": 10000,
+        "stock": 0,
         "minimum": 100,
         "supplier": "",
         "purchaseQuantity": 2.2,
@@ -381,8 +665,10 @@
       {
         "id": "00000000-0000-4000-8002-000000000003",
         "name": "Pepperoni",
+        "cheeseRole": null,
+        "referencePrice": null,
         "unit": "g",
-        "stock": 10000,
+        "stock": 0,
         "minimum": 100,
         "supplier": "",
         "purchaseQuantity": 2.26,
@@ -395,8 +681,10 @@
       {
         "id": "00000000-0000-4000-8002-000000000004",
         "name": "Queso Philadelphia",
+        "cheeseRole": null,
+        "referencePrice": null,
         "unit": "g",
-        "stock": 10000,
+        "stock": 0,
         "minimum": 100,
         "supplier": "",
         "purchaseQuantity": 800,
@@ -407,10 +695,28 @@
         "unitCost": 19.75
       },
       {
+        "id": "00000000-0000-4000-8002-000000000010",
+        "name": "Queso vegano GÜD",
+        "cheeseRole": "vegan",
+        "referencePrice": null,
+        "unit": "g",
+        "stock": 0,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 400,
+        "purchasePrice": 8000,
+        "purchaseUnit": "g",
+        "purchaseDate": null,
+        "presentation": "400 g",
+        "unitCost": 20
+      },
+      {
         "id": "00000000-0000-4000-8002-000000000006",
         "name": "Salmón",
+        "cheeseRole": null,
+        "referencePrice": null,
         "unit": "g",
-        "stock": 10000,
+        "stock": 0,
         "minimum": 100,
         "supplier": "",
         "purchaseQuantity": 400,
@@ -423,8 +729,10 @@
       {
         "id": "00000000-0000-4000-8002-000000000008",
         "name": "Salsa",
+        "cheeseRole": null,
+        "referencePrice": null,
         "unit": "ml",
-        "stock": 10000,
+        "stock": 0,
         "minimum": 100,
         "supplier": "",
         "purchaseQuantity": 0,
@@ -433,12 +741,45 @@
         "purchaseDate": null,
         "presentation": "",
         "unitCost": null
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000012",
+        "name": "Salsa de tomate",
+        "cheeseRole": null,
+        "referencePrice": null,
+        "unit": "g",
+        "stock": 0,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 70,
+        "purchasePrice": 400,
+        "purchaseUnit": "g",
+        "purchaseDate": null,
+        "presentation": "Porción estimada de 70 g",
+        "unitCost": 5.71428571
+      },
+      {
+        "id": "00000000-0000-4000-8002-000000000016",
+        "name": "Tomates cherry",
+        "cheeseRole": null,
+        "referencePrice": null,
+        "unit": "g",
+        "stock": 0,
+        "minimum": 100,
+        "supplier": "",
+        "purchaseQuantity": 40,
+        "purchasePrice": 400,
+        "purchaseUnit": "g",
+        "purchaseDate": null,
+        "presentation": "Porción estimada de 40 g",
+        "unitCost": 10
       }
     ],
     "recipes": [
       {
         "productId": "00000000-0000-4000-8001-000000000001",
         "complete": false,
+        "costPending": false,
         "items": [
           {
             "unit": "fl_oz",
@@ -459,6 +800,7 @@
       {
         "productId": "00000000-0000-4000-8001-000000000002",
         "complete": false,
+        "costPending": false,
         "items": [
           {
             "unit": "g",
@@ -479,6 +821,7 @@
       {
         "productId": "00000000-0000-4000-8001-000000000003",
         "complete": false,
+        "costPending": false,
         "items": [
           {
             "unit": "g",
@@ -499,6 +842,7 @@
       {
         "productId": "00000000-0000-4000-8001-000000000004",
         "complete": false,
+        "costPending": false,
         "items": [
           {
             "unit": "g",
@@ -513,29 +857,118 @@
       {
         "productId": "00000000-0000-4000-8001-000000000005",
         "complete": false,
+        "costPending": false,
         "items": [],
         "cost": null,
         "partialCost": 0
       },
       {
         "productId": "00000000-0000-4000-8001-000000000006",
-        "complete": false,
+        "complete": true,
+        "costPending": true,
         "items": [
           {
-            "unit": "fl_oz",
+            "unit": "ml",
             "category": "toppings",
-            "quantity": 1,
+            "quantity": 30,
             "ingredientId": "00000000-0000-4000-8002-000000000005"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 15,
+            "ingredientId": "00000000-0000-4000-8002-000000000015"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 50,
+            "ingredientId": "00000000-0000-4000-8002-000000000007"
+          },
+          {
+            "unit": "pz",
+            "category": "empaque",
+            "quantity": 1,
+            "ingredientId": "00000000-0000-4000-8002-000000000009"
+          },
+          {
+            "unit": "g",
+            "category": "masa",
+            "quantity": 255,
+            "ingredientId": "00000000-0000-4000-8002-000000000011"
           },
           {
             "unit": "g",
             "category": "toppings",
             "quantity": 130,
             "ingredientId": "00000000-0000-4000-8002-000000000002"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 40,
+            "ingredientId": "00000000-0000-4000-8002-000000000016"
           }
         ],
-        "cost": null,
-        "partialCost": 2401
+        "cost": 7958,
+        "partialCost": 7958
+      },
+      {
+        "productId": "00000000-0000-4000-8001-000000000007",
+        "complete": true,
+        "costPending": true,
+        "items": [
+          {
+            "unit": "ml",
+            "category": "toppings",
+            "quantity": 30,
+            "ingredientId": "00000000-0000-4000-8002-000000000005"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 30,
+            "ingredientId": "00000000-0000-4000-8002-000000000014"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 15,
+            "ingredientId": "00000000-0000-4000-8002-000000000015"
+          },
+          {
+            "unit": "pz",
+            "category": "empaque",
+            "quantity": 1,
+            "ingredientId": "00000000-0000-4000-8002-000000000009"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 80,
+            "ingredientId": "00000000-0000-4000-8002-000000000013"
+          },
+          {
+            "unit": "g",
+            "category": "masa",
+            "quantity": 255,
+            "ingredientId": "00000000-0000-4000-8002-000000000011"
+          },
+          {
+            "unit": "g",
+            "category": "toppings",
+            "quantity": 130,
+            "ingredientId": "00000000-0000-4000-8002-000000000010"
+          },
+          {
+            "unit": "g",
+            "category": "salsa",
+            "quantity": 70,
+            "ingredientId": "00000000-0000-4000-8002-000000000012"
+          }
+        ],
+        "cost": 6668,
+        "partialCost": 6668
       }
     ],
     "dough": [],
@@ -545,32 +978,44 @@
       {
         "id": "didi",
         "name": "DiDi Food",
-        "commission": 30
+        "commission": 30,
+        "productPrices": {
+          "00000000-0000-4000-8001-000000000007": 21900
+        }
       },
       {
         "id": "other",
         "name": "Otros",
-        "commission": null
+        "commission": null,
+        "productPrices": {}
       },
       {
         "id": "rappi",
         "name": "Rappi",
-        "commission": 30
+        "commission": 30,
+        "productPrices": {
+          "00000000-0000-4000-8001-000000000007": 21900
+        }
       },
       {
         "id": "store",
         "name": "Tienda propia",
-        "commission": null
+        "commission": null,
+        "productPrices": {}
       },
       {
         "id": "uber",
         "name": "Uber Eats",
-        "commission": 30
+        "commission": 30,
+        "productPrices": {
+          "00000000-0000-4000-8001-000000000007": 21900
+        }
       },
       {
         "id": "whatsapp",
         "name": "WhatsApp",
-        "commission": null
+        "commission": null,
+        "productPrices": {}
       }
     ],
     "movements": []

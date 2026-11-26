@@ -35,19 +35,22 @@ export async function calculateCart(
   zoneId?: string,
   promoCode?: string,
 ) {
-  const { products, zones, promotions } = await getMenu();
+  const { products, zones, promotions, settings } = await getMenu();
   let subtotal = 0;
   for (const line of items) {
     const p = products.find((v) => v.id === line.productId);
     if (
       !p?.available ||
+      (line.cheese ? !p.veganAvailable : p.standardAvailable === false) ||
       !Number.isInteger(line.quantity) ||
       line.quantity < 1 ||
       line.quantity > 50 ||
       line.removed.some((x) => !p.removable.includes(x))
     )
       throw new HttpError(409, "Revisa el carrito y la disponibilidad.");
-    subtotal += p.price * line.quantity;
+    subtotal +=
+      (p.price + (line.cheese ? (settings.veganSurcharge ?? 0) : 0)) *
+      line.quantity;
   }
   const zone = zoneId ? zones.find((z) => z.id === zoneId && z.enabled) : null;
   if (zoneId && !zone)

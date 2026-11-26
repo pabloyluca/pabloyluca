@@ -81,6 +81,32 @@ export function Catalog({ data, mutate, busy }: Props & { busy: boolean }) {
       </div>
       {tab === "Pizzas" ? (
         <>
+          <details className="op-panel">
+            <summary>Elige tu queso · Modificador global</summary>
+            <form
+              className="op-form"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const f = new FormData(e.currentTarget);
+                await mutate("settings.save", {
+                  veganSurcharge: amount(f.get("surcharge")),
+                });
+              }}
+            >
+              <Field label="Suplemento por queso vegano (MXN)">
+                <input
+                  key={data.settings.veganSurcharge}
+                  name="surcharge"
+                  required
+                  type="number"
+                  min="0"
+                  step=".01"
+                  defaultValue={(data.settings.veganSurcharge ?? 0) / 100}
+                />
+              </Field>
+              <Save busy={busy} />
+            </form>
+          </details>
           <div className="op-tools">
             <label className="op-search">
               <Search size={17} />
@@ -252,6 +278,9 @@ function ProductEditor({
         archived: value?.archived ?? false,
         position: value?.position ?? defaultPosition,
         image: picture,
+        cheeseMode: f.get("cheeseMode"),
+        dietClass: f.get("dietClass"),
+        dietVerified: f.has("dietVerified"),
       })
     )
       onClose();
@@ -329,6 +358,28 @@ function ProductEditor({
             onChange={(e) => setIngredients(e.target.value)}
           />
         </Field>
+        <Field label="Modificador de queso">
+          <select name="cheeseMode" defaultValue={value?.cheeseMode ?? "none"}>
+            <option value="none">No compatible</option>
+            <option value="swap">Sustituir mozzarella de la receta</option>
+            <option value="native">Queso vegano incluido de origen</option>
+          </select>
+        </Field>
+        <Field label="Clasificación alimentaria">
+          <select name="dietClass" defaultValue={value?.dietClass ?? "plant"}>
+            <option value="plant">Con queso vegetal</option>
+            <option value="option">Opción vegana al sustituir</option>
+            <option value="vegan">Vegana de origen</option>
+          </select>
+        </Field>
+        <label className="op-check">
+          <input
+            type="checkbox"
+            name="dietVerified"
+            defaultChecked={value?.dietVerified}
+          />
+          Ingredientes y fichas validados para la etiqueta alimentaria
+        </label>
         <fieldset className="op-checkgroup">
           <legend>El cliente puede quitar</legend>
           {strings(ingredients).length ? (

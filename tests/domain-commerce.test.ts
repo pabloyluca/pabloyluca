@@ -57,7 +57,7 @@ after(async () => {
 });
 test("seed cerrado, precios de referencia y costos parciales", async () => {
   const m = await getMenu();
-  assert.equal(m.products.length, 6);
+  assert.equal(m.products.length, 7);
   assert.equal(m.settings.open, false);
   assert.equal(m.products[1].price, 14900);
   const r = (await adminData()).recipes.find((r) => r.productId === product)!;

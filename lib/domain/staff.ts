@@ -87,6 +87,7 @@ const settingSchema = z
     temperature: integer(30, 600),
     maxActiveUnits: integer(1, 1000),
     limitDough: z.boolean(),
+    veganSurcharge: money,
     homeTitle: clean(120),
     homeDescription: txt(650),
     banner: txt(500),
@@ -109,8 +110,11 @@ const productSchema = z
     available: z.boolean(),
     archived: z.boolean().default(false),
     position: integer(0, 10000).optional(),
+    cheeseMode: z.enum(["none", "swap", "native"]).optional(),
+    dietClass: z.enum(["plant", "option", "vegan"]).optional(),
+    dietVerified: z.boolean().optional(),
   })
-  .strict();
+  .strip();
 const quantity = z.number().finite().nonnegative().max(10000000);
 const unit = z.enum(["g", "kg", "oz", "ml", "L", "l", "fl_oz", "pz"]);
 const dates = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
@@ -230,6 +234,7 @@ async function catalog(d: DB, action: string, raw: unknown) {
       "Los ingredientes removibles deben figurar en la receta.",
       422,
     );
+    let ingredientsChanged = false;
     if (v.id) {
       const current = list(
         await d.query<{ ingredients: string[] }>(
@@ -241,10 +246,12 @@ async function catalog(d: DB, action: string, raw: unknown) {
       if (
         JSON.stringify([...current.ingredients].sort()) !==
         JSON.stringify([...v.ingredients].sort())
-      )
+      ) {
+        ingredientsChanged = true;
         await d.query("update recipes set complete=false where product_id=$1", [
           v.id,
         ]);
+      }
     }
     const p = (
       await d.query<{ id: string }>(
@@ -272,6 +279,16 @@ async function catalog(d: DB, action: string, raw: unknown) {
       "insert into product_ingredient_labels select p.id,i.id,t.label from products p cross join lateral unnest(p.ingredients) t(label) join ingredients i on lower(i.name)=lower(t.label) where p.id=$1 on conflict do nothing",
       [p.id],
     );
+    await d.query(
+      `update products set cheese_mode=coalesce($2,cheese_mode),diet_class=coalesce($3,diet_class),diet_verified=case when $5 then false else coalesce($4,diet_verified) end where id=$1`,
+      [
+        p.id,
+        v.cheeseMode ?? null,
+        v.dietClass ?? null,
+        v.dietVerified ?? null,
+        ingredientsChanged,
+      ],
+    );
     return p;
   }
   if (action.startsWith("product.")) {
@@ -291,12 +308,12 @@ async function catalog(d: DB, action: string, raw: unknown) {
     else if (action === "product.duplicate") {
       const p = (
         await d.query<{ id: string }>(
-          `insert into products(name,description,price,image,ingredients,removable,available,position) select name||' (copia)',description,price,image,ingredients,removable,false,(select max(position)+1 from products) from products where id=$1 returning id`,
+          `insert into products(name,description,price,image,ingredients,removable,available,cheese_mode,diet_class,category,size_cm,position) select name||' (copia)',description,price,image,ingredients,removable,false,cheese_mode,diet_class,category,size_cm,(select max(position)+1 from products) from products where id=$1 returning id`,
           [key],
         )
       )[0];
       await d.query(
-        "insert into recipes(product_id,complete) select $2,complete from recipes where product_id=$1",
+        "insert into recipes(product_id,complete,cost_pending) select $2,complete,cost_pending from recipes where product_id=$1",
         [key, p.id],
       );
       await d.query(
@@ -367,6 +384,7 @@ async function inventory(d: DB, action: string, raw: unknown, s: Settings) {
     const v = z
       .object({
         productId: id,
+        costPending: z.boolean().optional(),
         complete: z.boolean(),
         items: z
           .array(
@@ -395,9 +413,21 @@ async function inventory(d: DB, action: string, raw: unknown, s: Settings) {
     );
     const all = await ingredients(d);
     await d.query(
+      `update products set diet_verified=false where id=$1 and exists(
+      select ingredient_id from recipe_items where product_id=$1
+      except select unnest($2::uuid[])
+    ) or (id=$1 and exists(select unnest($2::uuid[]) except select ingredient_id from recipe_items where product_id=$1))`,
+      [v.productId, arr(v.items.map((item) => item.ingredientId))],
+    );
+    await d.query(
       "insert into recipes(product_id,complete) values($1,$2) on conflict(product_id) do update set complete=excluded.complete",
       [v.productId, v.complete],
     );
+    if (v.costPending !== undefined)
+      await d.query("update recipes set cost_pending=$2 where product_id=$1", [
+        v.productId,
+        v.costPending,
+      ]);
     await d.query("delete from recipe_items where product_id=$1", [
       v.productId,
     ]);
@@ -763,7 +793,7 @@ export async function mutate(
       await kds(d, action, key, s);
       result = { id: key };
     } else if (action === "channel.presentation") {
-      await saveChannelPresentation(d,payload);
+      await saveChannelPresentation(d, payload);
     } else if (action === "settings.save") {
       const v = settingSchema.parse(payload),
         updated = {

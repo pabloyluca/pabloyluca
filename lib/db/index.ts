@@ -28,7 +28,8 @@ const remote = (pg: Sql | TransactionSql): DB => ({
   },
 });
 async function open(): Promise<Store> {
-  if (process.env.COMMERCE_MODE === "visual-preview") throw new Error("Vista previa de solo lectura.");
+  if (process.env.COMMERCE_MODE === "visual-preview")
+    throw new Error("Vista previa de solo lectura.");
   if (!usesLocalData()) {
     const url = process.env.DATABASE_URL;
     if (!url)
@@ -101,7 +102,23 @@ async function open(): Promise<Store> {
       await t.exec(`update ingredients set stock=case when unit='pz' then 100 else 10000 end,minimum=case when unit='pz' then 5 else 100 end;
         insert into dough_batches(prepared_at,flour,hydration,yeast,salt,ball_weight,balls,remaining,ferment_start,ferment_hours,expires_at,status)
         values(now(),9000,65,25,180,250,60,60,now(),24,now()+interval '30 days','ready');
-        insert into local_migrations values('sandbox-fixtures-v1')`);
+        insert into local_migrations values('sandbox-fixtures-v1'),('sandbox-vegan-stock-v1')`);
+    });
+  }
+  // Older local test kitchens already received the original stock fixture.
+  // Only seed the newly introduced ingredients, once, in that same demo kitchen.
+  if (
+    !(
+      await pg.query(
+        "select 1 from local_migrations where name='sandbox-vegan-stock-v1'",
+      )
+    ).rows.length
+  ) {
+    await pg.transaction(async (t) => {
+      await t.exec(`update ingredients i set stock=10000,minimum=100
+        where i.id between '00000000-0000-4000-8002-000000000010' and '00000000-0000-4000-8002-000000000016'
+        and i.stock=0 and not exists(select 1 from inventory_movements m where m.ingredient_id=i.id);
+        insert into local_migrations values('sandbox-vegan-stock-v1')`);
     });
   }
   return {

@@ -76,6 +76,7 @@ export const publicSettings = (s: Settings) => ({
   open: s.open,
   pickup: s.pickup,
   delivery: s.delivery,
+  veganSurcharge: s.veganSurcharge,
   homeTitle: s.homeTitle,
   homeDescription: s.homeDescription,
   banner: s.banner,
@@ -115,13 +116,35 @@ export function convert(quantity: number, unit: string, base: string) {
 export const stockSQL = `select i.id,i.stock-coalesce((select sum(r.quantity) from inventory_reservations r join orders o on o.id=r.order_id where r.ingredient_id=i.id and r.status='held' and o.expires_at>now()),0) as free from ingredients i`;
 export const doughSQL = `select b.id,b.remaining-coalesce((select sum(r.quantity) from inventory_reservations r join orders o on o.id=r.order_id where r.batch_id=b.id and r.status='held' and o.expires_at>now()),0) as free,b.expires_at from dough_batches b where b.status='ready' and b.expires_at>now()`;
 export async function products(d: DB, publicOnly = false, limitDough = false) {
-  const available = publicOnly
-    ? `p.available and not exists(select 1 from recipe_items ri join (${stockSQL}) s on s.id=ri.ingredient_id where ri.product_id=p.id and (not $1::boolean or ri.category<>'masa') group by s.id,s.free having s.free < sum(ri.base_quantity)) and not exists(select 1 from product_ingredient_labels l join (${stockSQL}) s on s.id=l.ingredient_id where l.product_id=p.id and l.label=any(p.ingredients) and s.free<=0) and (not $1::boolean or exists(select 1 from (${doughSQL}) b where free>=1))`
-    : "p.available";
-  return d.query<Product>(
-    `select p.id,p.name,p.description,p.price,p.image,p.ingredients,p.removable,${available} as available,p.archived,p.position from products p ${publicOnly ? "where not archived" : ""} order by position,name`,
-    publicOnly ? [limitDough] : [],
+  const variants = await d.query<Product>(
+    `with stock as ( ${stockSQL} ), catalog as (
+      select p.*, array(select l.label from product_ingredient_labels l join ingredients i on i.id=l.ingredient_id
+        where l.product_id=p.id and i.cheese_role='base') as cheese_labels,
+      p.cheese_mode='swap' and exists(select 1 from recipe_items r join ingredients i on i.id=r.ingredient_id
+        where r.product_id=p.id and i.cheese_role='base') and not exists(select 1 from recipe_items r join ingredients i on i.id=r.ingredient_id where r.product_id=p.id and i.cheese_role='vegan') as compatible
+      from products p where not $2::boolean or not p.archived
+    )
+    select p.id,p.name,p.description,p.price,p.image,p.ingredients,p.removable,p.archived,p.position,p.available,
+      p.slug,p.category,p.size_cm as "sizeCm",p.cheese_mode as "cheeseMode",p.diet_class as "dietClass",p.diet_verified as "dietVerified",
+      p.compatible as "canSwap",p.cheese_labels as "cheeseLabels",
+      ok.standard as "standardAvailable",p.compatible and ok.vegan as "veganAvailable"
+    from catalog p cross join lateral (
+      select bool_or(enough) filter(where not swap) as standard,bool_or(enough) filter(where swap) as vegan
+      from (select swap,p.available and (not $1::boolean or exists(select 1 from (${doughSQL}) b where free>=1))
+        and not exists(select 1 from pl_line_recipe(p.id,'{}',swap) r left join stock s on s.id=r.ingredient_id
+          where (not $1::boolean or r.category<>'masa') group by r.ingredient_id,s.free having coalesce(s.free,0)<sum(r.base_quantity))
+        and not exists(select 1 from product_ingredient_labels l join ingredients i on i.id=l.ingredient_id join stock s on s.id=i.id
+          where l.product_id=p.id and l.label=any(p.ingredients) and s.free<=0 and (not swap or i.cheese_role is distinct from 'base'))
+        as enough from (values(false),(true)) choices(swap)) availability
+    ) ok order by p.position,p.name`,
+    [limitDough, publicOnly],
   );
+  return publicOnly
+    ? variants.map((p) => ({
+        ...p,
+        available: !!(p.standardAvailable || p.veganAvailable),
+      }))
+    : variants;
 }
 export const zones = (d: DB) =>
   d.query<Zone>("select * from delivery_zones order by name");
@@ -131,18 +154,18 @@ export const promotions = (d: DB) =>
   );
 export const ingredients = (d: DB) =>
   d.query<Ingredient>(
-    `select id,name,unit,stock::float8,minimum::float8,supplier,purchase_quantity::float8 as "purchaseQuantity",purchase_price as "purchasePrice",purchase_unit as "purchaseUnit",purchase_date::text as "purchaseDate",presentation,unit_cost::float8 as "unitCost" from ingredients order by name`,
+    `select id,name,cheese_role as "cheeseRole",reference_price as "referencePrice",unit,stock::float8,minimum::float8,supplier,purchase_quantity::float8 as "purchaseQuantity",purchase_price as "purchasePrice",purchase_unit as "purchaseUnit",purchase_date::text as "purchaseDate",presentation,unit_cost::float8 as "unitCost" from ingredients order by name`,
   );
 export const purchases = (d: DB) =>
   d.query<Purchase>(
     `select id,ingredient_id as "ingredientId",quantity::float8,unit,price,date::text,supplier from ingredient_purchases order by date desc,id desc limit 300`,
   );
 export const recipes = (d: DB) =>
-  d.query<Recipe>(`select r.product_id as "productId",r.complete,
+  d.query<Recipe>(`select r.product_id as "productId",r.complete,r.cost_pending as "costPending",
  coalesce(jsonb_agg(jsonb_build_object('ingredientId',i.id,'quantity',x.quantity,'unit',x.unit,'category',x.category) order by i.name) filter(where i.id is not null),'[]') as items,
- case when r.complete and count(i.id)>0 and count(x.base_quantity)=count(i.unit_cost) then round(sum(x.base_quantity*i.unit_cost))::integer end as cost,
- coalesce(round(sum(x.base_quantity*i.unit_cost)),0)::integer as "partialCost"
- from recipes r left join recipe_items x on x.product_id=r.product_id left join ingredients i on x.ingredient_id=i.id group by r.product_id,r.complete`);
+ case when r.complete and count(i.id)>0 and count(x.base_quantity)=count(i.unit_cost) then round(round(sum(x.base_quantity*i.unit_cost),4))::integer end as cost,
+ coalesce(round(round(sum(x.base_quantity*i.unit_cost),4)),0)::integer as "partialCost"
+ from recipes r left join recipe_items x on x.product_id=r.product_id left join ingredients i on x.ingredient_id=i.id group by r.product_id,r.complete,r.cost_pending`);
 export const dough = (d: DB) =>
   d.query<Dough>(`select id,prepared_at as "preparedAt",flour::float8,hydration::float8,yeast::float8,salt::float8,ball_weight::float8 as "ballWeight",balls,remaining,
  (select coalesce(sum(r.quantity),0)::int from inventory_reservations r join orders o on o.id=r.order_id where r.batch_id=b.id and r.status='held' and o.expires_at>now()) held,
@@ -163,7 +186,7 @@ export const movements = (d: DB) =>
   );
 export const channels = (d: DB) =>
   d.query<ChannelConfig>(
-    "select id,name,commission::float8,presentation,product_prices as \"productPrices\" from sales_channels order by name",
+    'select id,name,commission::float8,presentation,product_prices as "productPrices" from sales_channels order by name',
   );
 export async function orders(d: DB, privateData: true): Promise<AdminOrder[]>;
 export async function orders(
@@ -177,7 +200,7 @@ export async function orders(d: DB, privateData: boolean) {
   return d.query<
     KitchenOrder | AdminOrder
   >(`select o.id,o.number,o.status,o.mode,o.payment_status as "paymentStatus",o.paid_at as "paidAt"${extra},
- coalesce((select jsonb_agg(jsonb_build_object('id',u.id,'name',i.name,'image',i.image,'removed',i.removed,'note',i.note,'status',u.status,'startedAt',u.started_at,'endsAt',u.ends_at) order by i.id,u.ordinal) from order_items i join order_item_units u on u.item_id=i.id where i.order_id=o.id),'[]') as units
+ coalesce((select jsonb_agg(jsonb_build_object('id',u.id,'name',i.name,'image',i.image,'removed',i.removed,'note',i.note,'cheese',i.cheese,'cheeseSupplement',i.cheese_supplement,'status',u.status,'startedAt',u.started_at,'endsAt',u.ends_at) order by i.id,u.ordinal) from order_items i join order_item_units u on u.item_id=i.id where i.order_id=o.id),'[]') as units
  from orders o ${privateData ? "" : "where o.paid_at is not null and o.status in ('confirmed','preparing','baking','ready','dispatched')"} order by o.created_at ${privateData ? "desc limit 300" : "asc"}`);
 }
 export async function notify(

@@ -20,6 +20,16 @@ export type OrderStatus =
   | "cancelled"
   | "review";
 export interface Product {
+  slug?: string | null;
+  sizeCm?: number;
+  category?: string;
+  cheeseMode?: "none" | "swap" | "native";
+  dietClass?: "plant" | "option" | "vegan";
+  dietVerified?: boolean;
+  canSwap?: boolean;
+  standardAvailable?: boolean;
+  veganAvailable?: boolean;
+  cheeseLabels?: string[];
   id: string;
   name: string;
   description: string;
@@ -32,6 +42,7 @@ export interface Product {
   position: number;
 }
 export interface Settings {
+  veganSurcharge?: number;
   open: boolean;
   pickup: boolean;
   delivery: boolean;
@@ -69,6 +80,7 @@ export interface Menu {
     | "open"
     | "pickup"
     | "delivery"
+    | "veganSurcharge"
     | "homeTitle"
     | "homeDescription"
     | "banner"
@@ -79,6 +91,7 @@ export interface Menu {
   promotions: Promotion[];
 }
 export interface CartLine {
+  cheese?: "vegan";
   productId: string;
   quantity: number;
   removed: string[];
@@ -117,6 +130,8 @@ export interface Tracking {
   updatedAt: string;
 }
 export interface Unit {
+  cheese?: "swap" | "native" | null;
+  cheeseSupplement?: number;
   id: string;
   image?: string;
   name: string;
@@ -143,6 +158,8 @@ export interface KitchenData {
   >;
 }
 export interface Ingredient {
+  cheeseRole?: "base" | "vegan" | null;
+  referencePrice?: number | null;
   id: string;
   name: string;
   unit: "g" | "ml" | "pz";
@@ -163,6 +180,7 @@ export interface RecipeItem {
   category: "masa" | "salsa" | "toppings" | "empaque" | "otros";
 }
 export interface Recipe {
+  costPending?: boolean;
   productId: string;
   complete: boolean;
   items: RecipeItem[];
@@ -208,7 +226,10 @@ export interface FinanceSale {
   productSales: { name: string; quantity: number; amount: number }[];
 }
 export interface ChannelConfig {
-  presentation?: Partial<import("./sales-channels").DirectBanner & import("./sales-channels").PlatformCard>;
+  presentation?: Partial<
+    import("./sales-channels").DirectBanner &
+      import("./sales-channels").PlatformCard
+  >;
   productPrices?: Record<string, number>;
   id: Channel;
   name: string;

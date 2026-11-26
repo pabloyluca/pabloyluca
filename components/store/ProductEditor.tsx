@@ -39,12 +39,14 @@ export function Stepper({
 
 export function ProductEditor({
   product,
+  surcharge,
   initial,
   editing,
   onClose,
   onSave,
 }: {
   product: Product;
+  surcharge: number;
   initial: CartLine;
   editing: boolean;
   onClose: () => void;
@@ -54,6 +56,16 @@ export function ProductEditor({
   const [removed, setRemoved] = useState(
     initial.removed.filter((i) => product.removable.includes(i)),
   );
+  const [vegan, setVegan] = useState(
+    initial.cheese === "vegan" ||
+      (!editing &&
+        product.standardAvailable === false &&
+        !!product.veganAvailable),
+  );
+  const unitPrice = product.price + (vegan ? surcharge : 0);
+  const allowed = vegan
+    ? product.canSwap && product.veganAvailable
+    : (product.standardAvailable ?? product.available);
   const [note, setNote] = useState(initial.note);
   return (
     <Dialog title="Personaliza tu pizza" onClose={onClose}>
@@ -62,29 +74,69 @@ export function ProductEditor({
           <img src={product.image} alt={product.name} />
           <div>
             <h3>{product.name}</h3>
-            <strong>{money(product.price)}</strong>
+            <strong>{money(unitPrice)}</strong>
             <p>{product.description}</p>
           </div>
         </div>
+        {product.canSwap && (
+          <fieldset className="pl-checks pl-cheese">
+            <legend>Elige tu queso</legend>
+            <label>
+              <input
+                type="radio"
+                name="cheese"
+                checked={!vegan}
+                disabled={product.standardAvailable === false}
+                onChange={() => setVegan(false)}
+              />
+              Mozzarella tradicional — Incluido
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="cheese"
+                checked={vegan}
+                disabled={!product.veganAvailable}
+                onChange={() => {
+                  setVegan(true);
+                  setRemoved(
+                    removed.filter((r) => !product.cheeseLabels?.includes(r)),
+                  );
+                }}
+              />
+              Queso vegano — +{money(surcharge)}
+              {!product.veganAvailable && " · Agotado"}
+            </label>
+            {vegan && (
+              <small>
+                {product.dietClass === "option" && product.dietVerified
+                  ? "Opción vegana"
+                  : "Con queso vegetal"}
+              </small>
+            )}
+          </fieldset>
+        )}
         {product.removable.length > 0 && (
           <fieldset className="pl-checks">
             <legend>Quitar ingredientes</legend>
-            {product.removable.map((ingredient) => (
-              <label key={ingredient}>
-                <input
-                  type="checkbox"
-                  checked={removed.includes(ingredient)}
-                  onChange={(event) =>
-                    setRemoved(
-                      event.target.checked
-                        ? [...removed, ingredient]
-                        : removed.filter((i) => i !== ingredient),
-                    )
-                  }
-                />
-                {ingredient}
-              </label>
-            ))}
+            {product.removable
+              .filter((i) => !vegan || !product.cheeseLabels?.includes(i))
+              .map((ingredient) => (
+                <label key={ingredient}>
+                  <input
+                    type="checkbox"
+                    checked={removed.includes(ingredient)}
+                    onChange={(event) =>
+                      setRemoved(
+                        event.target.checked
+                          ? [...removed, ingredient]
+                          : removed.filter((i) => i !== ingredient),
+                      )
+                    }
+                  />
+                  {ingredient}
+                </label>
+              ))}
           </fieldset>
         )}
         <label className="pl-field">
@@ -111,10 +163,11 @@ export function ProductEditor({
           <button
             className="pl-primary"
             type="button"
-            disabled={!product.available}
+            disabled={!allowed}
             onClick={() =>
               onSave({
                 productId: product.id,
+                ...(vegan ? { cheese: "vegan" as const } : {}),
                 removed,
                 note: note.trim(),
                 quantity,
@@ -123,7 +176,7 @@ export function ProductEditor({
           >
             <ShoppingBag size={17} />
             {editing ? "Guardar cambios" : "Agregar al carrito"} ·{" "}
-            {money(product.price * quantity)}
+            {money(unitPrice * quantity)}
           </button>
         </div>
       </div>

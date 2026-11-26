@@ -55,7 +55,13 @@ function play(ctx: AudioContext, alarm: boolean) {
     wave.stop(start + 0.21);
   });
 }
-export function Kitchen({ sandbox, visualPreview }: { sandbox: boolean; visualPreview: boolean }) {
+export function Kitchen({
+  sandbox,
+  visualPreview,
+}: {
+  sandbox: boolean;
+  visualPreview: boolean;
+}) {
   const { data, issue, busy, online, live, mutate, reload } =
     useOps<KitchenData>("/api/kitchen");
   const [now, setNow] = useState(Date.now),
@@ -174,13 +180,15 @@ export function Kitchen({ sandbox, visualPreview }: { sandbox: boolean; visualPr
           </h1>
           <p>
             <i className={online && live && !issue ? "" : "off"} />
-            {visualPreview ? "Vista de solo lectura" : !online
-              ? "Sin conexión"
-              : issue || live === false
-                ? "Conexión por verificar"
-                : live === null
-                  ? "Conectando…"
-                  : "Pedidos en tiempo real"}
+            {visualPreview
+              ? "Vista de solo lectura"
+              : !online
+                ? "Sin conexión"
+                : issue || live === false
+                  ? "Conexión por verificar"
+                  : live === null
+                    ? "Conectando…"
+                    : "Pedidos en tiempo real"}
           </p>
           {sandbox && (
             <small className="kds-sandbox">Sandbox · cocina de prueba</small>
@@ -481,6 +489,13 @@ function UnitCard({
         )}
         <div>
           <strong>{u.name}</strong>
+          {u.cheese && (
+            <strong className="kds-vegan">
+              {u.cheese === "swap"
+                ? "QUESO VEGANO — NO USAR MOZZARELLA"
+                : "QUESO VEGANO"}
+            </strong>
+          )}
           {u.removed.length > 0 && <small>Sin {u.removed.join(", ")}</small>}
           {u.note && <small className="kds-note">{u.note}</small>}
         </div>

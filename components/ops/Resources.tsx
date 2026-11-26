@@ -78,6 +78,84 @@ function inputStamp(value?: string) {
   return new Date(Date.parse(value) - 5 * 3600000).toISOString().slice(0, 16);
 }
 
+function portionFor(data: AdminData, ingredient: Ingredient) {
+  const row = data.recipes
+    .flatMap((recipe) => recipe.items)
+    .find((item) => item.ingredientId === ingredient.id);
+  return row ? row.quantity * factors[row.unit] : 0;
+}
+
+function PortionCost({
+  data,
+  ingredient,
+}: {
+  data: AdminData;
+  ingredient: Ingredient;
+}) {
+  const portion = portionFor(data, ingredient);
+  const pack = ingredient.purchaseQuantity * factors[ingredient.purchaseUnit];
+  if (!portion || !pack || ingredient.unitCost == null) return null;
+  return (
+    <p>
+      Porción de {formatNum(portion)} {ingredient.unit} ·{" "}
+      {money(Math.round(portion * ingredient.unitCost))}
+      {ingredient.referencePrice != null && (
+        <>
+          {" "}
+          · A precio regular{" "}
+          {money(Math.round((ingredient.referencePrice * portion) / pack))}
+        </>
+      )}
+      <br />
+      {Math.floor(pack / portion)} porciones por presentación ·{" "}
+      {formatNum(pack % portion)} {ingredient.unit} restantes
+    </p>
+  );
+}
+
+function CheeseContribution({ data }: { data: AdminData }) {
+  const base = data.ingredients.find((i) => i.cheeseRole === "base");
+  const plant = data.ingredients.find((i) => i.cheeseRole === "vegan");
+  const surcharge = data.settings.veganSurcharge;
+  if (
+    !base ||
+    base.unitCost == null ||
+    !plant ||
+    plant.unitCost == null ||
+    surcharge == null
+  )
+    return null;
+  const portion = portionFor(data, plant);
+  if (!portion) return null;
+  const baseCost = Math.round(base.unitCost * portion);
+  const plantCost = Math.round(plant.unitCost * portion);
+  const delta = plantCost - baseCost;
+  return (
+    <Panel title="Sustitución de queso">
+      <p>
+        {formatNum(portion)} g · Mozzarella {money(baseCost)} · Queso vegetal{" "}
+        {money(plantCost)}
+      </p>
+      <p>
+        Costo incremental {money(delta)} · Suplemento {money(surcharge)}
+      </p>
+      <strong>
+        Contribución incremental directa · {money(surcharge - delta)}
+      </strong>
+      {data.channels
+        .filter((c) => c.commission != null)
+        .map((c) => (
+          <p key={c.id}>
+            {c.name} ({formatNum(c.commission!)} %) ·{" "}
+            {money(
+              surcharge - Math.round((surcharge * c.commission!) / 100) - delta,
+            )}
+          </p>
+        ))}
+    </Panel>
+  );
+}
+
 export function Recipes({ data, mutate }: Props) {
   const [edit, setEdit] = useState<Product | null>(null),
     [mode, setMode] = useState("recetas");
@@ -98,7 +176,10 @@ export function Recipes({ data, mutate }: Props) {
         </button>
       </div>
       {mode === "sim" ? (
-        <Simulator data={data} />
+        <>
+          <CheeseContribution data={data} />
+          <Simulator data={data} />
+        </>
       ) : (
         <div className="op-recipes">
           {data.products
@@ -124,10 +205,32 @@ export function Recipes({ data, mutate }: Props) {
                       <small>Precio de venta · {money(p.price)}</small>
                     </div>
                   </div>
+                  {r?.costPending && (
+                    <small>Costeo estimado · Pendiente de validación</small>
+                  )}
+                  {complete &&
+                    data.channels
+                      .filter(
+                        (c) =>
+                          c.productPrices?.[p.id] != null &&
+                          c.commission != null,
+                      )
+                      .map((c) => {
+                        const price = c.productPrices![p.id];
+                        return (
+                          <p key={c.id}>
+                            {c.name} · Contribución bruta{" "}
+                            {money(
+                              price -
+                                Math.round((price * c.commission!) / 100) -
+                                r.cost!,
+                            )}
+                          </p>
+                        );
+                      })}
                   {complete ? (
                     <p>
-                      Utilidad antes de comisiones · {money(p.price - r.cost!)}{" "}
-                      ·{" "}
+                      Contribución bruta directa · {money(p.price - r.cost!)} ·{" "}
                       {p.price
                         ? Math.round(((p.price - r.cost!) / p.price) * 100)
                         : 0}
@@ -166,6 +269,7 @@ function RecipeEditor({
 }: Props & { product: Product; onClose: () => void }) {
   const recipe = data.recipes.find((r) => r.productId === product.id);
   const [items, setItems] = useState<RecipeItem[]>(recipe?.items ?? []),
+    [costPending, setCostPending] = useState(recipe?.costPending ?? false),
     [complete, setComplete] = useState(recipe?.complete ?? false),
     [error, setError] = useState("");
   const update = (idx: number, change: Partial<RecipeItem>) =>
@@ -176,10 +280,19 @@ function RecipeEditor({
       ? ing.unitCost * r.quantity * (factors[r.unit] ?? 0)
       : null;
   });
-  const total = Math.round(costs.reduce<number>((n, v) => n + (v ?? 0), 0));
+  const total = Math.round(
+    Number(costs.reduce<number>((n, v) => n + (v ?? 0), 0).toFixed(4)),
+  );
   async function save(e: FormEvent) {
     e.preventDefault();
-    if (await mutate("recipe.save", { productId: product.id, complete, items }))
+    if (
+      await mutate("recipe.save", {
+        productId: product.id,
+        complete,
+        costPending,
+        items,
+      })
+    )
       onClose();
     else setError("No se pudo guardar la receta. Revisa las porciones.");
   }
@@ -318,7 +431,15 @@ function RecipeEditor({
             checked={complete}
             onChange={(e) => setComplete(e.target.checked)}
           />{" "}
-          Receta completa, con gramajes y costos validados
+          Receta completa, con todos los gramajes y costos
+        </label>
+        <label className="op-check">
+          <input
+            type="checkbox"
+            checked={costPending}
+            onChange={(e) => setCostPending(e.target.checked)}
+          />
+          Costos pendientes de validación
         </label>
         {error && (
           <p className="op-error" role="alert">
@@ -529,6 +650,12 @@ export function Inventory({ data, mutate }: Props) {
                   className={i.stock <= i.minimum ? "low" : ""}
                 />
               </div>
+              {i.referencePrice != null && (
+                <p>Compra regular de referencia · {money(i.referencePrice)}</p>
+              )}
+              {(i.cheeseRole === "vegan" || i.referencePrice != null) && (
+                <PortionCost data={data} ingredient={i} />
+              )}
               <p className="op-muted">
                 Mínimo · {formatNum(i.minimum)} {i.unit}
               </p>

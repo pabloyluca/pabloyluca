@@ -23,6 +23,12 @@ export const statusNames: Record<OrderStatus, string> = {
 };
 
 export const CART_KEY = "pablo-luca.cart.v1";
+export function linePrice(menu: Menu, line: CartLine) {
+  const base = menu.products.find((p) => p.id === line.productId)?.price ?? 0;
+  return (
+    base + (line.cheese === "vegan" ? (menu.settings.veganSurcharge ?? 0) : 0)
+  );
+}
 export function restoreCart(): CartLine[] {
   try {
     const json: unknown = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
@@ -30,13 +36,14 @@ export function restoreCart(): CartLine[] {
     return json.filter((item): item is CartLine =>
       Boolean(
         item &&
-        typeof item.productId === "string" &&
-        Number.isInteger(item.quantity) &&
-        item.quantity > 0 &&
-        item.quantity <= 50 &&
-        Array.isArray(item.removed) &&
-        item.removed.every((name: unknown) => typeof name === "string") &&
-        typeof item.note === "string",
+          typeof item.productId === "string" &&
+          (item.cheese === undefined || item.cheese === "vegan") &&
+          Number.isInteger(item.quantity) &&
+          item.quantity > 0 &&
+          item.quantity <= 50 &&
+          Array.isArray(item.removed) &&
+          item.removed.every((name: unknown) => typeof name === "string") &&
+          typeof item.note === "string",
       ),
     );
   } catch {
@@ -51,10 +58,7 @@ export function cartQuote(
   fee: number,
 ) {
   const subtotal = cart.reduce(
-    (sum, line) =>
-      sum +
-      (menu.products.find((item) => item.id === line.productId)?.price ?? 0) *
-        line.quantity,
+    (sum, line) => sum + linePrice(menu, line) * line.quantity,
     0,
   );
   const promotion = menu.promotions.find(

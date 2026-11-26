@@ -35,6 +35,7 @@ const line = z
   .object({
     productId: id,
     quantity: z.number().int().min(1).max(50),
+    cheese: z.literal("vegan").optional(),
     removed: z.array(clean(120)).max(40).default([]),
     note: txt(350).default(""),
   })
@@ -97,7 +98,11 @@ export async function getMenu() {
   const d = await db();
   const s = await settings(d);
   return {
-    commercial: storefrontChannels(await d.query<{id:string; presentation:object}>("select id,presentation from sales_channels")),
+    commercial: storefrontChannels(
+      await d.query<{ id: string; presentation: object }>(
+        "select id,presentation from sales_channels",
+      ),
+    ),
     settings: publicSettings(s),
     products: await products(d, true, s.limitDough),
     zones: (await zones(d)).filter((v) => v.enabled),
@@ -203,10 +208,23 @@ export async function checkout(
         "Personalización no permitida.",
         422,
       );
-      return { x, p, c: costs.find((r) => r.productId === p.id) };
+      if (x.cheese) {
+        requireState(
+          p.canSwap &&
+            !x.removed.some((label) => p.cheeseLabels?.includes(label)),
+          "La sustitución de queso no es compatible con esta pizza.",
+          422,
+        );
+        requireState(
+          Number.isSafeInteger(s.veganSurcharge),
+          "Falta configurar el suplemento de queso.",
+        );
+      }
+      const supplement = x.cheese ? s.veganSurcharge! : 0;
+      return { x, p, supplement, c: costs.find((r) => r.productId === p.id) };
     });
     const subtotal = lines.reduce(
-      (sum, { x, p }) => sum + x.quantity * p.price,
+      (sum, { x, p, supplement }) => sum + x.quantity * (p.price + supplement),
       0,
     );
     let discount = 0;
@@ -247,27 +265,29 @@ export async function checkout(
         ],
       )
     )[0];
-    for (const { x, p, c } of lines) {
+    for (const { x, p, c, supplement } of lines) {
       const adjusted = (
         await d.query<{ cost: number | null; partial: number }>(
-          `select case when $3::boolean and count(*)=count(i.unit_cost) then coalesce(round(sum(ri.base_quantity*i.unit_cost)),0)::int end cost, coalesce(round(sum(ri.base_quantity*i.unit_cost)),0)::int partial
-      from recipe_items ri join ingredients i on i.id=ri.ingredient_id where ri.product_id=$1 and not exists(select 1 from product_ingredient_labels l where l.product_id=ri.product_id and l.ingredient_id=ri.ingredient_id and l.label=any($2::text[]))`,
-          [p.id, arr(x.removed), c?.cost != null],
+          `select case when $3::boolean and count(*)=count(i.unit_cost) then coalesce(round(round(sum(ri.base_quantity*i.unit_cost),4)),0)::int end cost, coalesce(round(round(sum(ri.base_quantity*i.unit_cost),4)),0)::int partial
+      from pl_line_recipe($1,$2::text[],$4) ri join ingredients i on i.id=ri.ingredient_id`,
+          [p.id, arr(x.removed), c?.cost != null, !!x.cheese],
         )
       )[0];
       const row = await d.query<{ id: string }>(
-        `insert into order_items(order_id,product_id,name,image,unit_price,unit_cost,partial_cost,quantity,removed,note) values($1,$2,$3,$4,$5,$6,$7,$8,$9::text[],$10) returning id`,
+        `insert into order_items(order_id,product_id,name,image,unit_price,unit_cost,partial_cost,quantity,removed,note,cheese,cheese_supplement) values($1,$2,$3,$4,$5,$6,$7,$8,$9::text[],$10,$11,$12) returning id`,
         [
           created.id,
           p.id,
           p.name,
           p.image,
-          p.price,
+          p.price + supplement,
           adjusted.cost,
           adjusted.partial,
           x.quantity,
           arr(x.removed),
           x.note,
+          x.cheese ? "swap" : p.cheeseMode === "native" ? "native" : null,
+          supplement,
         ],
       );
       await d.query(
@@ -277,12 +297,12 @@ export async function checkout(
     }
     // Dough flour was charged to the batch when it was mixed.
     const out = await d.query(
-      `select 1 from order_items i join product_ingredient_labels l on l.product_id=i.product_id join (${stockSQL}) s on s.id=l.ingredient_id where i.order_id=$1 and l.label=any((select p.ingredients from products p where p.id=i.product_id)::text[]) and not(l.label=any(i.removed)) and s.free<=0 limit 1`,
+      `select 1 from order_items i join product_ingredient_labels l on l.product_id=i.product_id join (${stockSQL}) s on s.id=l.ingredient_id where i.order_id=$1 and l.label=any((select p.ingredients from products p where p.id=i.product_id)::text[]) and not(l.label=any(i.removed)) and (i.cheese is distinct from 'swap' or l.ingredient_id is distinct from (select id from ingredients where cheese_role='base')) and s.free<=0 limit 1`,
       [created.id],
     );
     requireState(!out.length, "Un ingrediente de tu pizza está agotado.");
     const needs = await d.query<{ id: string; need: string; enough: boolean }>(
-      `select ri.ingredient_id as id,sum(ri.base_quantity*i.quantity) as need,sum(ri.base_quantity*i.quantity)<=s.free as enough from order_items i join recipe_items ri on ri.product_id=i.product_id join (${stockSQL}) s on s.id=ri.ingredient_id where i.order_id=$1 and (not $2::boolean or ri.category<>'masa') and not exists(select 1 from product_ingredient_labels l where l.product_id=i.product_id and l.ingredient_id=ri.ingredient_id and l.label=any(i.removed)) group by ri.ingredient_id,s.free`,
+      `select ri.ingredient_id as id,sum(ri.base_quantity*i.quantity) as need,sum(ri.base_quantity*i.quantity)<=s.free as enough from order_items i cross join lateral pl_line_recipe(i.product_id,i.removed,i.cheese is not distinct from 'swap') ri join (${stockSQL}) s on s.id=ri.ingredient_id where i.order_id=$1 and (not $2::boolean or ri.category<>'masa') group by ri.ingredient_id,s.free`,
       [created.id, s.limitDough],
     );
     for (const n of needs) {

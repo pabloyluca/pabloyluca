@@ -66,4 +66,6 @@ join ingredients i on lower(i.name)=lower(lbl.label) or
   (i.name='Queso Philadelphia' and lbl.label='Queso cremoso')
 on conflict do nothing;
 insert into audit_logs(actor,action) values('migration','seed.v1');
+perform pl_install_vegan_v1();
+perform pl_install_catalog_photos_v2();
 end $seed$;

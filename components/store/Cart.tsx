@@ -19,7 +19,7 @@ import type {
   Mode,
 } from "@/lib/contracts";
 import { Dialog } from "./Dialog";
-import { cartQuote, money, requestJson } from "./utils";
+import { linePrice, cartQuote, money, requestJson } from "./utils";
 
 interface Props {
   menu: Menu;
@@ -68,6 +68,9 @@ export function Cart({
     const product = menu.products.find((p) => p.id === line.productId);
     return (
       !product?.available ||
+      (line.cheese
+        ? !product.veganAvailable
+        : product.standardAvailable === false) ||
       line.removed.some((i) => !product.removable.includes(i))
     );
   });
@@ -244,6 +247,12 @@ export function Cart({
                             {line.quantity} ×{" "}
                             {product?.name ?? "Producto retirado"}
                           </h3>
+                          {line.cheese && (
+                            <p>
+                              Queso vegano +
+                              {money(menu.settings.veganSurcharge ?? 0)}
+                            </p>
+                          )}
                           {line.removed.length > 0 && (
                             <p>Sin {line.removed.join(", ")}</p>
                           )}
@@ -271,7 +280,7 @@ export function Cart({
                           </div>
                         </div>
                         <strong>
-                          {money((product?.price ?? 0) * line.quantity)}
+                          {money(linePrice(menu, line) * line.quantity)}
                         </strong>
                       </li>
                     );
@@ -315,6 +324,42 @@ export function Cart({
                   <ArrowLeft size={14} />
                   Volver al carrito
                 </button>
+                <details className="pl-checkout-items">
+                  <summary>
+                    Ver pizzas y personalizaciones (
+                    {cart.reduce((sum, line) => sum + line.quantity, 0)})
+                  </summary>
+                  <ul className="pl-cart-lines">
+                    {cart.map((line, index) => {
+                      const product = menu.products.find(
+                        (p) => p.id === line.productId,
+                      );
+                      return (
+                        <li key={index}>
+                          {product && <img src={product.image} alt="" />}
+                          <div>
+                            <h3>
+                              {line.quantity} × {product?.name}
+                            </h3>
+                            {line.cheese && (
+                              <p>
+                                Queso vegano +
+                                {money(menu.settings.veganSurcharge ?? 0)}
+                              </p>
+                            )}
+                            {line.removed.length > 0 && (
+                              <p>Sin {line.removed.join(", ")}</p>
+                            )}
+                            {line.note && <p>{line.note}</p>}
+                          </div>
+                          <strong>
+                            {money(linePrice(menu, line) * line.quantity)}
+                          </strong>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </details>
                 <fieldset className="pl-modes">
                   <legend>¿Cómo quieres recibir tu pedido?</legend>
                   {menu.settings.pickup && (

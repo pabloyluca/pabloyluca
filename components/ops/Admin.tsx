@@ -668,6 +668,10 @@ function Orders({ data }: { data: AdminData }) {
               {o.units.map((u) => (
                 <p key={u.id}>
                   <Pizza size={15} /> {u.name}{" "}
+                  {u.cheese &&
+                    (u.cheese === "swap"
+                      ? " · Queso vegano +" + money(u.cheeseSupplement ?? 0)
+                      : " · Queso vegano incluido")}{" "}
                   {u.removed.length ? "· Sin " + u.removed.join(", ") : ""}{" "}
                   {u.note && "· " + u.note}
                 </p>

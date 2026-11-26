@@ -20,7 +20,7 @@ import type { CartLine, Menu, Product } from "@/lib/contracts";
 import { Cart } from "./Cart";
 import { Dialog } from "./Dialog";
 import { ProductEditor, Stepper } from "./ProductEditor";
-import { CART_KEY, money, requestJson, restoreCart } from "./utils";
+import { CART_KEY, linePrice, money, requestJson, restoreCart } from "./utils";
 
 type Editor = { id: string; quantity: number; index?: number };
 type Info = "about" | "zones" | "nav" | null;
@@ -40,9 +40,11 @@ function KitchenBadge({ open }: { open: boolean }) {
 
 function Card({
   product,
+  surcharge,
   onOpen,
 }: {
   product: Product;
+  surcharge: number;
   onOpen: (id: string, qty: number) => void;
 }) {
   const [qty, setQty] = useState(1);
@@ -74,7 +76,19 @@ function Card({
           <h3>{product.name}</h3>
           <strong>{money(product.price)}</strong>
         </button>
+        {product.cheeseMode === "native" &&
+          product.dietClass === "vegan" &&
+          product.dietVerified && (
+            <small className="pl-vegan">
+              <Leaf size={13} /> VEGANA
+            </small>
+          )}
         <p>{product.description}</p>
+        {product.canSwap && (
+          <small className="pl-cheese-hint">
+            Disponible con queso vegano +{money(surcharge)}
+          </small>
+        )}
         <div className="pl-product-actions">
           <Stepper name={product.name} quantity={qty} onChange={setQty} />
           <button
@@ -171,13 +185,7 @@ export function Storefront({
     }
   }, [toast]);
   const count = cart.reduce((s, i) => s + i.quantity, 0);
-  const total = cart.reduce(
-    (s, i) =>
-      s +
-      i.quantity *
-        (menu.products.find((p) => p.id === i.productId)?.price ?? 0),
-    0,
-  );
+  const total = cart.reduce((s, i) => s + i.quantity * linePrice(menu, i), 0);
   const products = menu.products
     .filter((p) => !p.archived)
     .sort((a, b) => a.position - b.position);
@@ -356,7 +364,9 @@ export function Storefront({
         <div className="pl-menu-head">
           <div className="pl-title-ornament">
             <i />
-            <h2 id="pl-menu-title" tabIndex={-1}>Nuestro Menú</h2>
+            <h2 id="pl-menu-title" tabIndex={-1}>
+              Nuestro Menú
+            </h2>
             <i />
           </div>
           <p>
@@ -370,6 +380,7 @@ export function Storefront({
               <Card
                 key={product.id}
                 product={product}
+                surcharge={menu.settings.veganSurcharge ?? 0}
                 onOpen={(id, quantity) => setEditor({ id, quantity })}
               />
             ))}
@@ -377,6 +388,10 @@ export function Storefront({
         ) : (
           <p className="pl-note">El menú se está preparando. Vuelve pronto.</p>
         )}
+        <p className="pl-note">
+          Contamos con opciones de queso vegetal. Todos nuestros productos se
+          preparan en una cocina compartida.
+        </p>
         <div className="pl-features">
           <div>
             <Leaf />
@@ -428,6 +443,7 @@ export function Storefront({
         <ProductEditor
           key={`${editor.id}:${editor.index ?? "new"}`}
           product={selected}
+          surcharge={menu.settings.veganSurcharge ?? 0}
           initial={
             editor.index !== undefined
               ? cart[editor.index]

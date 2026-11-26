@@ -1445,3 +1445,12 @@
     flex: auto;
   }
 }
+
+.pl-vegan,.pl-cheese-hint {display:inline-flex;align-items:center;gap:4px;color:#235539;font-size:12px}
+.pl-vegan {border-radius:20px;background:#e2ecd9;padding:3px 8px;font-weight:700;letter-spacing:.05em}
+.pl-cheese label {border:1px solid #d9d4c2;padding:9px 12px;border-radius:10px}
+.pl-cheese label:has(input:checked) {background:#eaf1e3;border-color:#739378}
+.pl-cheese label:has(input:disabled) {opacity:.65}
+
+.pl-checkout-items { margin-block: .8rem; }
+.pl-checkout-items summary { cursor: pointer; color: var(--green); font-weight: 600; }

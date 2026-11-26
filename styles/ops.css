@@ -1892,3 +1892,5 @@
 .op-channel-actions button {cursor:pointer;min-width:32px;border:1px solid #d3cbb9;border-radius:8px;background:#fffbf2}
 .op-channel-editor details {margin-top:15px}
 .op-channel-editor summary {cursor:pointer;font-weight:650;margin-bottom:10px}
+
+.kds-vegan {display:block;background:#16492b;color:#fff;padding:5px 8px;border-radius:5px;font-size:12px;line-height:1.25}
