@@ -12,5 +12,6 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   await requirePageRole(["OWNER", "ADMIN"]);
-  return <Admin sandbox={isSandbox()} />;
+  const sandbox = isSandbox();
+  return <Admin sandbox={sandbox} hasTestKitchen={!sandbox && Boolean(process.env.KDS_SANDBOX_URL)} />;
 }

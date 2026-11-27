@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   Activity,
   Archive,
@@ -13,6 +13,7 @@ import {
   ClipboardList,
   CookingPot,
   ExternalLink,
+  FlaskConical,
   House,
   LogOut,
   Menu as MenuIcon,
@@ -122,7 +123,16 @@ function currentSection() {
     ? pick!
     : "overview";
 }
-export function Admin({ sandbox }: { sandbox: boolean }) {
+function TestKitchenLink({ className }: { className?: string }) {
+  return (
+    <a href="/admin/kds-pruebas" className={className} title="KDS de pruebas · SANDBOX" aria-label="KDS de pruebas · SANDBOX">
+      <FlaskConical size={18} aria-hidden="true" />
+      <span>KDS de pruebas <small className="op-test-label">SANDBOX</small></span>
+    </a>
+  );
+}
+
+export function Admin({ sandbox, hasTestKitchen }: { sandbox: boolean; hasTestKitchen: boolean }) {
   const { data, busy, issue, mutate, reload, online } =
     useOps<AdminData>("/api/admin");
   const [section, setSection] = useState("overview"),
@@ -173,29 +183,31 @@ export function Admin({ sandbox }: { sandbox: boolean }) {
         </div>
         <nav aria-label="Centro de mando">
           {sections.map(({ id, name, icon: Icon }) => (
-            <a
-              key={id}
-              href={id === "kitchen" ? "/kitchen" : "/admin?section=" + id}
-              className={section === id ? "selected" : ""}
-              aria-current={section === id ? "page" : undefined}
-              title={name}
-              onClick={(e) => {
-                if (id !== "kitchen" && !e.metaKey && !e.ctrlKey) {
-                  e.preventDefault();
-                  go(id);
-                }
-              }}
-            >
-              <Icon size={20} />
-              <span>{name}</span>
-              {id === "orders" &&
-                !!data?.orders.filter((o) => o.status === "confirmed")
-                  .length && (
-                  <b>
-                    {data.orders.filter((o) => o.status === "confirmed").length}
-                  </b>
-                )}
-            </a>
+            <Fragment key={id}>
+              <a
+                href={id === "kitchen" ? "/kitchen" : "/admin?section=" + id}
+                className={section === id ? "selected" : ""}
+                aria-current={section === id ? "page" : undefined}
+                title={id === "kitchen" && hasTestKitchen ? "Cocina pública (KDS)" : name}
+                onClick={(e) => {
+                  if (id !== "kitchen" && !e.metaKey && !e.ctrlKey) {
+                    e.preventDefault();
+                    go(id);
+                  }
+                }}
+              >
+                <Icon size={20} />
+                <span>{id === "kitchen" && hasTestKitchen ? "Cocina pública (KDS)" : name}</span>
+                {id === "orders" &&
+                  !!data?.orders.filter((o) => o.status === "confirmed")
+                    .length && (
+                    <b>
+                      {data.orders.filter((o) => o.status === "confirmed").length}
+                    </b>
+                  )}
+              </a>
+              {id === "kitchen" && hasTestKitchen && <TestKitchenLink />}
+            </Fragment>
           ))}
         </nav>
         <img
@@ -284,7 +296,7 @@ export function Admin({ sandbox }: { sandbox: boolean }) {
                   <Overview data={data} range={range} go={go} />
                 </>
               )}
-              {section === "orders" && <Orders data={data} />}
+              {section === "orders" && <Orders data={data} hasTestKitchen={hasTestKitchen} />}
               {section === "cms" && (
                 <Catalog data={data} mutate={mutate} busy={busy} />
               )}
@@ -605,7 +617,7 @@ function Overview({
     </>
   );
 }
-function Orders({ data }: { data: AdminData }) {
+function Orders({ data, hasTestKitchen }: { data: AdminData; hasTestKitchen: boolean }) {
   const [filter, setFilter] = useState(""),
     [search, setSearch] = useState("");
   const orders = data.orders.filter(
@@ -619,9 +631,12 @@ function Orders({ data }: { data: AdminData }) {
     <Panel
       title="Pedidos de la tienda"
       action={
-        <a className="op-secondary" href="/kitchen">
-          <CookingPot size={16} /> Abrir cocina
-        </a>
+        <div className="op-kds-links">
+          <a className="op-secondary" href="/kitchen">
+            <CookingPot size={16} /> {hasTestKitchen ? "Cocina pública (KDS)" : "Abrir cocina"}
+          </a>
+          {hasTestKitchen && <TestKitchenLink className="op-secondary" />}
+        </div>
       }
     >
       <div className="op-tools">
