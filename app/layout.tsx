@@ -3,9 +3,42 @@ import type { ReactNode } from "react";
 import "../styles/global.css";
 import { InstallShell } from "@/components/InstallShell";
 
+const site = new URL("https://www.pabloyluca.com");
+const title = "Pablo & Luca | Pizza Artesanal en Cancún";
+const description =
+  "Pizza artesanal de masa de fermentación lenta, ingredientes frescos y horneada al momento. Ordena directo o encuéntranos en Rappi. Cancún · Huayacán.";
+const imageUrl = new URL("/branding/og-pabloyluca.jpg", site).href;
+const imageAlt =
+  "Pablo & Luca Pizza Artesanal en Cancún · Huayacán. Vespa, paisaje italiano y pizza Margherita con los distintivos de Rappi y «Pedido directo −30%».";
+
 export const metadata: Metadata = {
-  title: "Pablo & Luca · Pizza artesanal en Huayacán",
-  description: "Pizza artesanal de fermentación lenta en Huayacán, Cancún.",
+  metadataBase: site,
+  applicationName: "Pablo & Luca",
+  title,
+  description,
+  alternates: { canonical: site.href },
+  openGraph: {
+    title,
+    description,
+    url: site.href,
+    type: "website",
+    locale: "es_MX",
+    siteName: "Pablo & Luca",
+    images: [{
+      url: imageUrl,
+      secureUrl: imageUrl,
+      type: "image/jpeg",
+      width: 1200,
+      height: 630,
+      alt: imageAlt,
+    }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [{ url: imageUrl, alt: imageAlt }],
+  },
   manifest: "/manifest.webmanifest",
   icons: { icon: "/icon-192.png", apple: "/icon-192.png" },
   robots: { index: false, follow: false },

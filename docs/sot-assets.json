@@ -3,6 +3,10 @@
   "coordinateSystem": "Píxeles del PNG original. [izquierda, arriba, derecha exclusiva, abajo exclusivo].",
   "sourceRoot": "/Users/smonkeycoin/Desktop/pablo y luca",
   "sources": {
+    "sot open graph.png": {
+      "size": [1672, 941],
+      "sha256": "f385a47de8af647d607b7a0533003cb42521077802b3a404f8106b9f60aba91e"
+    },
     "pabloyluca.com/storefront sot.png": {
       "size": [
         1199,

@@ -1,5 +1,5 @@
 # Fuentes visuales
-Los ocho PNG originales permanecen en las dos ubicaciones suministradas. El inventario con dimensiones, coordenadas y huellas SHA-256 está en [sot-assets.json](sot-assets.json).
+El inventario de los PNG originales con dimensiones y huellas SHA-256 está en [sot-assets.json](sot-assets.json).
 
 | Referencia | Aplicación |
 |---|---|
@@ -10,6 +10,13 @@ Los ocho PNG originales permanecen en las dos ubicaciones suministradas. El inve
 | `pabloyluca.com/cms sot.png` | Navegación lateral, productos en cuadrícula y panel lateral de edición |
 | `pabloyluca.com/erp sot.png` | Pulso del Negocio, filtros, KPIs, ventas, recursos y producción |
 | `pabloyluca.com/kds sot.png` | Cuatro columnas táctiles, horno destacado y cronómetros por unidad |
+| `sot open graph.png` | Arte oficial para compartir la web en redes y mensajería |
+
+## Open Graph
+
+El original aprobado, `667CC032-6922-4B3D-AB01-53C915E1EC31.png`, se conserva íntegro como [sot open graph.png](../sot%20open%20graph.png). El [JPG para compartir](../public/branding/og-pabloyluca.jpg) mide 1200 × 630 px y lleva un perfil sRGB incrustado. El encuadre conserva el ancho completo y ajusta el margen inferior. El favicon, el Apple Touch Icon y los iconos PWA proceden de `sot framless profile pic.png`.
+
+El 27 de noviembre de 2026 el propietario confirmó el −30 % por pedido directo y la disponibilidad de la sucursal Cancún · Huayacán en Rappi, y autorizó publicar la imagen.
 
 Las seis fotos provisionales proceden de las áreas fotográficas de la referencia de tienda. Cada recorte mide 226 × 159 píxeles. El CMS permite sustituirlas por fotos de mayor resolución. El logotipo conserva el dibujo y las letras originales. Los archivos suministrados no incluyen la fuente Zaslia ni su licencia.
 
