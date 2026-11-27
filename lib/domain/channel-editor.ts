@@ -60,12 +60,12 @@ export async function saveChannelPresentation(db: DB, raw: unknown) {
         );
     }
     await db.query(
-      "update sales_channels set presentation=$2::jsonb,product_prices=$3::jsonb where id=$1",
+      "update sales_channels set presentation=$2::text::jsonb,product_prices=$3::text::jsonb where id=$1",
       [p.id, JSON.stringify(p.card), JSON.stringify(p.prices)],
     );
   }
   await db.query(
-    "update sales_channels set presentation=$1::jsonb where id='store'",
+    "update sales_channels set presentation=$1::text::jsonb where id='store'",
     [JSON.stringify(v.direct)],
   );
   await db.query(
