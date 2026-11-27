@@ -4,14 +4,15 @@ import { readFile } from "node:fs/promises";
 test.use({ javaScriptEnabled: false, userAgent: "Twitterbot/1.0" });
 
 test("la portada entrega una tarjeta social única en el HTML inicial", async ({ page, request }) => {
-  const origin = "https://www.pabloyluca.com/";
+  const origin = "https://www.pabloyluca.com";
   const image = new URL("branding/og-pabloyluca.jpg", origin).href;
   const response = await page.goto("/");
   expect(response?.status()).toBe(200);
   const head = page.locator("head");
   const title = "Pablo & Luca | Pizza Artesanal en Cancún";
   const description = "Pizza artesanal de masa de fermentación lenta, ingredientes frescos y horneada al momento. Ordena directo o encuéntranos en Rappi. Cancún · Huayacán.";
-  await expect(head.locator("title")).toHaveText(title);
+  await expect(head.locator("title")).toHaveCount(1);
+  await expect(page).toHaveTitle(title);
   await expect(head.locator('link[rel="canonical"]')).toHaveAttribute("href", origin);
   const tags = {
     description,
